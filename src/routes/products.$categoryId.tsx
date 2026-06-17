@@ -7,7 +7,7 @@ export const Route = createFileRoute("/products/$categoryId")({
   loader: ({ params }) => {
     const cat = categories.find((c) => c.id === params.categoryId);
     if (!cat) throw notFound();
-    return { cat };
+    return { cat: cat as (typeof categories)[number] };
   },
   head: ({ loaderData }) => ({
     meta: [
