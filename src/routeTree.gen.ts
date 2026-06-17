@@ -14,6 +14,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsCategoryIdRouteImport } from './routes/products.$categoryId'
+import { Route as ProductsCategoryIdProductIdRouteImport } from './routes/products.$categoryId.$productId'
 
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
@@ -40,28 +41,37 @@ const ProductsCategoryIdRoute = ProductsCategoryIdRouteImport.update({
   path: '/products/$categoryId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProductsCategoryIdProductIdRoute =
+  ProductsCategoryIdProductIdRouteImport.update({
+    id: '/$productId',
+    path: '/$productId',
+    getParentRoute: () => ProductsCategoryIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
-  '/products/$categoryId': typeof ProductsCategoryIdRoute
+  '/products/$categoryId': typeof ProductsCategoryIdRouteWithChildren
   '/products/': typeof ProductsIndexRoute
+  '/products/$categoryId/$productId': typeof ProductsCategoryIdProductIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
-  '/products/$categoryId': typeof ProductsCategoryIdRoute
+  '/products/$categoryId': typeof ProductsCategoryIdRouteWithChildren
   '/products': typeof ProductsIndexRoute
+  '/products/$categoryId/$productId': typeof ProductsCategoryIdProductIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
-  '/products/$categoryId': typeof ProductsCategoryIdRoute
+  '/products/$categoryId': typeof ProductsCategoryIdRouteWithChildren
   '/products/': typeof ProductsIndexRoute
+  '/products/$categoryId/$productId': typeof ProductsCategoryIdProductIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -71,8 +81,15 @@ export interface FileRouteTypes {
     | '/contact'
     | '/products/$categoryId'
     | '/products/'
+    | '/products/$categoryId/$productId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/contact' | '/products/$categoryId' | '/products'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/products/$categoryId'
+    | '/products'
+    | '/products/$categoryId/$productId'
   id:
     | '__root__'
     | '/'
@@ -80,13 +97,14 @@ export interface FileRouteTypes {
     | '/contact'
     | '/products/$categoryId'
     | '/products/'
+    | '/products/$categoryId/$productId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
-  ProductsCategoryIdRoute: typeof ProductsCategoryIdRoute
+  ProductsCategoryIdRoute: typeof ProductsCategoryIdRouteWithChildren
   ProductsIndexRoute: typeof ProductsIndexRoute
 }
 
@@ -127,14 +145,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsCategoryIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/products/$categoryId/$productId': {
+      id: '/products/$categoryId/$productId'
+      path: '/$productId'
+      fullPath: '/products/$categoryId/$productId'
+      preLoaderRoute: typeof ProductsCategoryIdProductIdRouteImport
+      parentRoute: typeof ProductsCategoryIdRoute
+    }
   }
 }
+
+interface ProductsCategoryIdRouteChildren {
+  ProductsCategoryIdProductIdRoute: typeof ProductsCategoryIdProductIdRoute
+}
+
+const ProductsCategoryIdRouteChildren: ProductsCategoryIdRouteChildren = {
+  ProductsCategoryIdProductIdRoute: ProductsCategoryIdProductIdRoute,
+}
+
+const ProductsCategoryIdRouteWithChildren =
+  ProductsCategoryIdRoute._addFileChildren(ProductsCategoryIdRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
-  ProductsCategoryIdRoute: ProductsCategoryIdRoute,
+  ProductsCategoryIdRoute: ProductsCategoryIdRouteWithChildren,
   ProductsIndexRoute: ProductsIndexRoute,
 }
 export const routeTree = rootRouteImport
