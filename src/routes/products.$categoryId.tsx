@@ -1,7 +1,8 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Layout } from "@/components/Layout";
 import { useI18n } from "@/lib/i18n";
-import { categories } from "@/data/site";
+import { categories, type Category } from "@/data/site";
+
 
 export const Route = createFileRoute("/products/$categoryId")({
   loader: ({ params }) => {
@@ -35,7 +36,7 @@ export const Route = createFileRoute("/products/$categoryId")({
 });
 
 function CategoryPage() {
-  const { cat } = Route.useLoaderData();
+  const { cat } = Route.useLoaderData() as { cat: Category };
   const { lang, tr } = useI18n();
 
   return (
