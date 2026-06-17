@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 import type { Lang } from "@/data/site";
 import { t } from "@/data/site";
 
-type Ctx = { lang: Lang; setLang: (l: Lang) => void; tr: typeof t.zh };
+type Ctx = { lang: Lang; setLang: (l: Lang) => void; tr: (typeof t)[Lang] };
 const I18nCtx = createContext<Ctx | null>(null);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
