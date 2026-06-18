@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ChevronDown, Menu, X, Globe, Phone, ArrowRight, Sparkles } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { categories, contact } from "@/data/site";
+import { ProductImage } from "@/components/ProductImage";
 
 export function Header() {
   const { lang, setLang, tr } = useI18n();
