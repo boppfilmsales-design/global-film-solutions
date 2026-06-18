@@ -200,7 +200,7 @@ function Index() {
       <section className="container-x pb-24">
         <div className="rounded-3xl overflow-hidden border border-border bg-card shadow-card grid md:grid-cols-2 gap-0">
           <div className="aspect-[4/3] md:aspect-auto relative bg-muted">
-            <img src={bopet.products[0]?.img} alt={bopet.name[lang]} className="w-full h-full object-cover" />
+            {bopet.products[0] && <ProductImage product={bopet.products[0]} category={bopet} className="w-full h-full" showLabel={false} />}
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
             <div className="absolute bottom-4 left-4 px-3 py-1 rounded-full bg-background/90 backdrop-blur text-xs font-semibold">{bopet.icon} {bopet.short[lang]}</div>
           </div>
