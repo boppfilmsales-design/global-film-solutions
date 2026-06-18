@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Layout } from "@/components/Layout";
+import { ProductImage } from "@/components/ProductImage";
 import { useI18n } from "@/lib/i18n";
 import { findProduct, contact, type Category, type Product } from "@/data/site";
 import { Check, Mail, MessageCircle, Phone, ArrowRight, Download, Sparkles } from "lucide-react";
