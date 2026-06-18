@@ -105,7 +105,7 @@ export function Header() {
                           className="group/card rounded-lg border border-border bg-card overflow-hidden hover:shadow-elegant hover:-translate-y-0.5 transition"
                         >
                           <div className="aspect-[4/3] overflow-hidden bg-muted">
-                            <img src={p.img} alt={p.name[lang]} loading="lazy" className="w-full h-full object-cover group-hover/card:scale-110 transition duration-500" />
+                            <ProductImage product={p} category={activeCat} className="w-full h-full group-hover/card:scale-105 transition duration-500" />
                           </div>
                           <div className="p-2">
                             <div className="text-[11px] font-semibold line-clamp-2 leading-tight">{p.name[lang]}</div>
