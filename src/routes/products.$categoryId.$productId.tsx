@@ -62,15 +62,15 @@ function ProductDetailPage() {
             <div className="relative">
               <div className="absolute -inset-4 gradient-brand opacity-20 blur-3xl rounded-full" />
               <div className="relative aspect-[4/3] rounded-3xl overflow-hidden border border-border bg-card shadow-elegant">
-                <img src={prod.img} alt={prod.name[lang]} className="w-full h-full object-cover" />
+                <ProductImage product={prod} category={cat} className="w-full h-full" />
                 <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-background/90 backdrop-blur text-[11px] font-medium border border-border">
                   <span className="text-brand">{cat.icon}</span> {cat.short[lang]}
                 </div>
               </div>
               <div className="mt-4 grid grid-cols-4 gap-3">
-                {[prod.img, ...related.slice(0, 3).map((r) => r.img)].map((src, i) => (
-                  <div key={i} className={`aspect-square rounded-xl overflow-hidden border ${i === 0 ? "border-brand ring-2 ring-brand/30" : "border-border"} bg-muted`}>
-                    <img src={src} alt="" className="w-full h-full object-cover" loading="lazy" />
+                {[prod, ...related.slice(0, 3)].map((r, i) => (
+                  <div key={r.id} className={`aspect-square rounded-xl overflow-hidden border ${i === 0 ? "border-brand ring-2 ring-brand/30" : "border-border"} bg-muted`}>
+                    <ProductImage product={r} category={cat} className="w-full h-full" showLabel={false} />
                   </div>
                 ))}
               </div>
