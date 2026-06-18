@@ -210,7 +210,7 @@ function ProductDetailPage() {
                 className="group rounded-2xl bg-card border border-border overflow-hidden shadow-card hover:shadow-elegant hover:-translate-y-1 transition"
               >
                 <div className="aspect-square overflow-hidden bg-muted">
-                  <img src={p.img} alt={p.name[lang]} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+                  <ProductImage product={p} category={cat} className="w-full h-full group-hover:scale-105 transition duration-500" />
                 </div>
                 <div className="p-3">
                   <div className="text-[10px] text-brand font-semibold uppercase">{cat.short.en}</div>
