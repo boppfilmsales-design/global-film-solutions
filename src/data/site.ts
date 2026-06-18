@@ -19,6 +19,8 @@ export const contact = {
 };
 
 export type Spec = { label: { zh: string; en: string }; value: string };
+export type FAQ = { q: string; a: string };
+export type TradeRow = { k: string; v: string };
 export type Product = {
   id: string;
   name: { zh: string; en: string };
@@ -28,6 +30,10 @@ export type Product = {
   specs?: Spec[];
   applications?: { zh: string[]; en: string[] };
   features?: { zh: string[]; en: string[] };
+  packaging?: { zh: string[]; en: string[] };
+  quality?: { zh: string[]; en: string[] };
+  faq?: { zh: FAQ[]; en: FAQ[] };
+  trade?: { zh: TradeRow[]; en: TradeRow[] };
 };
 export type Category = {
   id: string;
