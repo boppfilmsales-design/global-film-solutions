@@ -128,7 +128,7 @@ function CategoryPage() {
                     <ArrowRight className="h-3.5 w-3.5" />
                   </div>
                   <div className="aspect-[4/3] overflow-hidden bg-muted relative">
-                    <img src={p.img} alt={p.name[lang]} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition duration-700" />
+                    <ProductImage product={p} category={cat} className="w-full h-full group-hover:scale-105 transition duration-700" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition" />
                   </div>
                   <div className="p-4">
