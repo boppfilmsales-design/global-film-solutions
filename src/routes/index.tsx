@@ -159,7 +159,7 @@ function Index() {
                 className={`group relative rounded-2xl bg-card border border-border overflow-hidden shadow-card hover:shadow-elegant hover:-translate-y-2 transition-all duration-300 ${i % 2 ? "md:translate-y-4" : ""}`}
               >
                 <div className="aspect-square overflow-hidden bg-muted relative">
-                  <img src={p.img} alt={p.name[lang]} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition duration-700" />
+                  <ProductImage product={p} category={categories[0]} className="w-full h-full group-hover:scale-105 transition duration-700" />
                   <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-background/90 backdrop-blur text-[10px] font-mono">#{String(i + 1).padStart(2, "0")}</div>
                   <div className="absolute bottom-2 right-2 h-7 w-7 rounded-full gradient-brand grid place-items-center text-brand-foreground opacity-0 group-hover:opacity-100 transition">
                     <ArrowRight className="h-3.5 w-3.5" />
