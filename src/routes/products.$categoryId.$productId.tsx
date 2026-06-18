@@ -130,41 +130,134 @@ function ProductDetailPage() {
 
       {/* DETAILS */}
       <section className="container-x py-14 grid lg:grid-cols-3 gap-8">
-        {/* Specs table */}
-        <div className="lg:col-span-2">
-          <h2 className="text-2xl font-bold font-display flex items-center gap-2">
-            <span className="h-7 w-1.5 gradient-brand rounded-full" /> {tr.detailSpecs}
-          </h2>
-          {prod.specs && prod.specs.length > 0 ? (
-            <div className="mt-5 rounded-2xl border border-border overflow-hidden shadow-card">
-              <table className="w-full text-sm">
-                <tbody>
-                  {prod.specs.map((s, i) => (
-                    <tr key={i} className={i % 2 === 0 ? "bg-card" : "bg-secondary/30"}>
-                      <td className="px-5 py-3 font-medium text-muted-foreground w-1/3 border-b border-border">{s.label[lang]}</td>
-                      <td className="px-5 py-3 font-semibold border-b border-border">{s.value}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <div className="mt-5 p-8 rounded-2xl border border-dashed border-border text-center text-sm text-muted-foreground">
-              {lang === "zh" ? "详细技术参数请来电索取。" : "Please contact us for the full datasheet."}
-            </div>
-          )}
+        <div className="lg:col-span-2 space-y-12">
+          {/* Overview */}
+          <div>
+            <h2 className="text-2xl font-bold font-display flex items-center gap-2">
+              <span className="h-7 w-1.5 gradient-brand rounded-full" /> {tr.detailOverview}
+            </h2>
+            <p className="mt-4 text-muted-foreground leading-relaxed">{prod.desc?.[lang]}</p>
+            {prod.features && (
+              <div className="mt-6 grid sm:grid-cols-2 gap-3">
+                {prod.features[lang].map((f) => (
+                  <div key={f} className="flex items-start gap-3 p-4 rounded-xl bg-gradient-to-br from-secondary/40 to-card border border-border">
+                    <div className="h-8 w-8 rounded-lg gradient-brand grid place-items-center text-brand-foreground text-xs font-bold shrink-0">✓</div>
+                    <span className="text-sm font-medium">{f}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
 
+          {/* Specs */}
+          <div>
+            <h2 className="text-2xl font-bold font-display flex items-center gap-2">
+              <span className="h-7 w-1.5 gradient-brand rounded-full" /> {tr.detailSpecs}
+            </h2>
+            {prod.specs && prod.specs.length > 0 && (
+              <div className="mt-5 rounded-2xl border border-border overflow-hidden shadow-card">
+                <table className="w-full text-sm">
+                  <tbody>
+                    {prod.specs.map((s, i) => (
+                      <tr key={i} className={i % 2 === 0 ? "bg-card" : "bg-secondary/30"}>
+                        <td className="px-5 py-3 font-medium text-muted-foreground w-1/3 border-b border-border">{s.label[lang]}</td>
+                        <td className="px-5 py-3 font-semibold border-b border-border">{s.value}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+
+          {/* Applications */}
           {prod.applications && (
-            <div className="mt-10">
+            <div>
               <h2 className="text-2xl font-bold font-display flex items-center gap-2">
                 <span className="h-7 w-1.5 gradient-brand rounded-full" /> {tr.detailApps}
               </h2>
               <div className="mt-5 grid sm:grid-cols-2 gap-3">
                 {prod.applications[lang].map((a) => (
                   <div key={a} className="flex items-center gap-3 px-4 py-3 rounded-xl bg-card border border-border shadow-card">
-                    <div className="h-8 w-8 rounded-lg gradient-brand grid place-items-center text-brand-foreground text-xs font-bold">✓</div>
+                    <div className="h-8 w-8 rounded-lg gradient-brand grid place-items-center text-brand-foreground text-xs font-bold">★</div>
                     <span className="font-medium text-sm">{a}</span>
                   </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Packaging & Shipping */}
+          {prod.packaging && (
+            <div>
+              <h2 className="text-2xl font-bold font-display flex items-center gap-2">
+                <span className="h-7 w-1.5 gradient-brand rounded-full" /> {tr.detailPackaging}
+              </h2>
+              <ul className="mt-5 space-y-2">
+                {prod.packaging[lang].map((p, i) => (
+                  <li key={i} className="flex items-start gap-3 p-4 rounded-xl border border-border bg-card">
+                    <span className="h-6 w-6 rounded-md bg-brand/10 text-brand grid place-items-center text-xs font-bold shrink-0">{i + 1}</span>
+                    <span className="text-sm">{p}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Quality */}
+          {prod.quality && (
+            <div>
+              <h2 className="text-2xl font-bold font-display flex items-center gap-2">
+                <span className="h-7 w-1.5 gradient-brand rounded-full" /> {tr.detailQuality}
+              </h2>
+              <div className="mt-5 grid sm:grid-cols-2 gap-3">
+                {prod.quality[lang].map((q) => (
+                  <div key={q} className="flex items-start gap-3 p-4 rounded-xl bg-gradient-to-br from-brand/5 to-card border border-brand/20">
+                    <Check className="h-5 w-5 text-brand mt-0.5 shrink-0" />
+                    <span className="text-sm font-medium">{q}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Trade info */}
+          {prod.trade && (
+            <div>
+              <h2 className="text-2xl font-bold font-display flex items-center gap-2">
+                <span className="h-7 w-1.5 gradient-brand rounded-full" /> {tr.detailTrade}
+              </h2>
+              <div className="mt-5 grid sm:grid-cols-2 gap-3">
+                {prod.trade[lang].map((row) => (
+                  <div key={row.k} className="p-4 rounded-xl border border-border bg-card flex flex-col">
+                    <span className="text-[11px] uppercase tracking-wider text-muted-foreground">{row.k}</span>
+                    <span className="mt-1 font-semibold">{row.v}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* FAQ */}
+          {prod.faq && (
+            <div>
+              <h2 className="text-2xl font-bold font-display flex items-center gap-2">
+                <span className="h-7 w-1.5 gradient-brand rounded-full" /> {tr.detailFAQ}
+              </h2>
+              <div className="mt-5 space-y-3">
+                {prod.faq[lang].map((f, i) => (
+                  <details key={i} className="group rounded-xl border border-border bg-card overflow-hidden">
+                    <summary className="cursor-pointer list-none p-4 flex items-center justify-between gap-4 hover:bg-secondary/40 transition">
+                      <span className="font-semibold text-sm flex items-center gap-3">
+                        <span className="h-6 w-6 rounded-md gradient-brand text-brand-foreground grid place-items-center text-xs font-bold">Q</span>
+                        {f.q}
+                      </span>
+                      <span className="text-brand text-xl group-open:rotate-45 transition">+</span>
+                    </summary>
+                    <div className="px-4 pb-4 text-sm text-muted-foreground pl-13 border-t border-border pt-3">
+                      {f.a}
+                    </div>
+                  </details>
                 ))}
               </div>
             </div>
@@ -177,6 +270,7 @@ function ProductDetailPage() {
             <div className="gradient-hero text-white p-5">
               <div className="text-xs opacity-80">{cat.short[lang]}</div>
               <div className="font-display font-bold text-lg mt-1 line-clamp-2">{prod.name[lang]}</div>
+              {prod.tagline && <div className="text-xs opacity-90 mt-1">{prod.tagline[lang]}</div>}
             </div>
             <div className="p-5 space-y-3 text-sm">
               <Row label={lang === "zh" ? "公司" : "Company"} value={contact.company[lang]} />
@@ -184,13 +278,18 @@ function ProductDetailPage() {
               <Row label={lang === "zh" ? "手机/WhatsApp" : "Mobile/WhatsApp"} value={contact.mobile} href={`tel:${contact.mobile}`} />
               <Row label="QQ" value={contact.qq} />
               <Row label={lang === "zh" ? "微信" : "WeChat"} value={contact.wechat} />
+              <Row label={lang === "zh" ? "网址" : "Website"} value={contact.website} />
               <Link to="/contact" className="block mt-4 text-center px-4 py-2.5 rounded-lg gradient-brand text-brand-foreground font-semibold">
                 {tr.inquireNow}
               </Link>
+              <a href={`https://wa.me/${contact.whatsapp}?text=${encodeURIComponent("Inquiry: " + prod.name.en)}`} className="block text-center px-4 py-2.5 rounded-lg border border-border font-semibold hover:bg-secondary">
+                WhatsApp
+              </a>
             </div>
           </div>
         </aside>
       </section>
+
 
       {/* RELATED */}
       {related.length > 0 && (
