@@ -59,7 +59,7 @@ function Index() {
                   key={p.id}
                   className={`rounded-2xl overflow-hidden bg-white/10 backdrop-blur border border-white/20 shadow-elegant ${i % 2 ? "translate-y-8" : ""}`}
                 >
-                  <img src={p.img} alt={p.name[lang]} className="w-full h-44 object-cover" loading="lazy" />
+                  <ProductImage product={p} category={categories[0]} className="w-full h-44" />
                   <div className="p-3 text-xs font-medium">{p.name[lang]}</div>
                 </div>
               ))}
