@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, Factory, Globe2, Sparkles, Award, Mail, Phone, MessageCircle } from "lucide-react";
 import { Layout } from "@/components/Layout";
+import { ProductImage } from "@/components/ProductImage";
 import { useI18n } from "@/lib/i18n";
 import { categories, contact } from "@/data/site";
 
