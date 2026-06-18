@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, Factory, Globe2, Sparkles, Award, Mail, Phone, MessageCircle } from "lucide-react";
 import { Layout } from "@/components/Layout";
+import { ProductImage } from "@/components/ProductImage";
 import { useI18n } from "@/lib/i18n";
 import { categories, contact } from "@/data/site";
 
@@ -58,7 +59,7 @@ function Index() {
                   key={p.id}
                   className={`rounded-2xl overflow-hidden bg-white/10 backdrop-blur border border-white/20 shadow-elegant ${i % 2 ? "translate-y-8" : ""}`}
                 >
-                  <img src={p.img} alt={p.name[lang]} className="w-full h-44 object-cover" loading="lazy" />
+                  <ProductImage product={p} category={categories[0]} className="w-full h-44" />
                   <div className="p-3 text-xs font-medium">{p.name[lang]}</div>
                 </div>
               ))}
@@ -104,7 +105,7 @@ function Index() {
               : wide
               ? "col-span-12 md:col-span-6 md:row-span-1"
               : "col-span-6 md:col-span-3 md:row-span-1";
-            const cover = c.products[0]?.img;
+            const coverProd = c.products[0];
             return (
               <Link
                 key={c.id}
@@ -112,10 +113,10 @@ function Index() {
                 params={{ categoryId: c.id }}
                 className={`group relative ${span} rounded-3xl overflow-hidden border border-border bg-card shadow-card hover:shadow-elegant hover:-translate-y-1 transition-all duration-300`}
               >
-                {cover && (
+                {coverProd && (
                   <>
-                    <img src={cover} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-50 group-hover:scale-110 transition duration-700" />
-                    <div className="absolute inset-0 bg-gradient-to-br from-card/95 via-card/80 to-card/60" />
+                    <ProductImage product={coverProd} category={c} className="absolute inset-0 w-full h-full opacity-60 group-hover:opacity-80 group-hover:scale-105 transition duration-700" showLabel={false} />
+                    <div className="absolute inset-0 bg-gradient-to-br from-card/95 via-card/75 to-card/40" />
                   </>
                 )}
                 <div className="relative h-full p-5 flex flex-col">
@@ -158,7 +159,7 @@ function Index() {
                 className={`group relative rounded-2xl bg-card border border-border overflow-hidden shadow-card hover:shadow-elegant hover:-translate-y-2 transition-all duration-300 ${i % 2 ? "md:translate-y-4" : ""}`}
               >
                 <div className="aspect-square overflow-hidden bg-muted relative">
-                  <img src={p.img} alt={p.name[lang]} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition duration-700" />
+                  <ProductImage product={p} category={categories[0]} className="w-full h-full group-hover:scale-105 transition duration-700" />
                   <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-background/90 backdrop-blur text-[10px] font-mono">#{String(i + 1).padStart(2, "0")}</div>
                   <div className="absolute bottom-2 right-2 h-7 w-7 rounded-full gradient-brand grid place-items-center text-brand-foreground opacity-0 group-hover:opacity-100 transition">
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -199,7 +200,7 @@ function Index() {
       <section className="container-x pb-24">
         <div className="rounded-3xl overflow-hidden border border-border bg-card shadow-card grid md:grid-cols-2 gap-0">
           <div className="aspect-[4/3] md:aspect-auto relative bg-muted">
-            <img src={bopet.products[0]?.img} alt={bopet.name[lang]} className="w-full h-full object-cover" />
+            {bopet.products[0] && <ProductImage product={bopet.products[0]} category={bopet} className="w-full h-full" showLabel={false} />}
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
             <div className="absolute bottom-4 left-4 px-3 py-1 rounded-full bg-background/90 backdrop-blur text-xs font-semibold">{bopet.icon} {bopet.short[lang]}</div>
           </div>

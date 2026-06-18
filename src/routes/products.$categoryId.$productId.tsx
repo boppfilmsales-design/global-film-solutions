@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Layout } from "@/components/Layout";
+import { ProductImage } from "@/components/ProductImage";
 import { useI18n } from "@/lib/i18n";
 import { findProduct, contact, type Category, type Product } from "@/data/site";
 import { Check, Mail, MessageCircle, Phone, ArrowRight, Download, Sparkles } from "lucide-react";
@@ -61,15 +62,15 @@ function ProductDetailPage() {
             <div className="relative">
               <div className="absolute -inset-4 gradient-brand opacity-20 blur-3xl rounded-full" />
               <div className="relative aspect-[4/3] rounded-3xl overflow-hidden border border-border bg-card shadow-elegant">
-                <img src={prod.img} alt={prod.name[lang]} className="w-full h-full object-cover" />
+                <ProductImage product={prod} category={cat} className="w-full h-full" />
                 <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-background/90 backdrop-blur text-[11px] font-medium border border-border">
                   <span className="text-brand">{cat.icon}</span> {cat.short[lang]}
                 </div>
               </div>
               <div className="mt-4 grid grid-cols-4 gap-3">
-                {[prod.img, ...related.slice(0, 3).map((r) => r.img)].map((src, i) => (
-                  <div key={i} className={`aspect-square rounded-xl overflow-hidden border ${i === 0 ? "border-brand ring-2 ring-brand/30" : "border-border"} bg-muted`}>
-                    <img src={src} alt="" className="w-full h-full object-cover" loading="lazy" />
+                {[prod, ...related.slice(0, 3)].map((r, i) => (
+                  <div key={r.id} className={`aspect-square rounded-xl overflow-hidden border ${i === 0 ? "border-brand ring-2 ring-brand/30" : "border-border"} bg-muted`}>
+                    <ProductImage product={r} category={cat} className="w-full h-full" showLabel={false} />
                   </div>
                 ))}
               </div>
@@ -209,7 +210,7 @@ function ProductDetailPage() {
                 className="group rounded-2xl bg-card border border-border overflow-hidden shadow-card hover:shadow-elegant hover:-translate-y-1 transition"
               >
                 <div className="aspect-square overflow-hidden bg-muted">
-                  <img src={p.img} alt={p.name[lang]} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+                  <ProductImage product={p} category={cat} className="w-full h-full group-hover:scale-105 transition duration-500" />
                 </div>
                 <div className="p-3">
                   <div className="text-[10px] text-brand font-semibold uppercase">{cat.short.en}</div>
