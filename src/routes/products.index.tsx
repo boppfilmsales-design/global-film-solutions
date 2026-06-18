@@ -103,7 +103,7 @@ function ProductsIndex() {
                     className="group rounded-xl bg-card border border-border overflow-hidden shadow-card hover:shadow-elegant transition"
                   >
                     <div className="aspect-square overflow-hidden bg-muted">
-                      <img src={p.img} alt={p.name[lang]} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+                      <ProductImage product={p} category={c} className="w-full h-full group-hover:scale-105 transition duration-500" />
                     </div>
                     <div className="p-2">
                       <div className="text-[11px] font-semibold line-clamp-2 leading-tight">{p.name[lang]}</div>
