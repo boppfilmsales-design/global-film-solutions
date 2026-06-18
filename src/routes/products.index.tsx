@@ -43,7 +43,7 @@ function ProductsIndex() {
             : wide
             ? "md:col-span-6 md:row-span-1"
             : "md:col-span-4 md:row-span-1";
-          const cover = c.products[0]?.img;
+          const coverProd = c.products[0];
           return (
             <Link
               key={c.id}
@@ -51,10 +51,10 @@ function ProductsIndex() {
               params={{ categoryId: c.id }}
               className={`group relative col-span-12 ${span} rounded-3xl overflow-hidden border border-border bg-card shadow-card hover:shadow-elegant hover:-translate-y-1 transition-all duration-300`}
             >
-              {cover && (
+              {coverProd && (
                 <>
-                  <img src={cover} alt={c.name[lang]} loading="lazy" className="absolute inset-0 w-full h-full object-cover opacity-25 group-hover:opacity-40 group-hover:scale-110 transition duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-br from-card/95 via-card/85 to-card/70" />
+                  <ProductImage product={coverProd} category={c} className="absolute inset-0 w-full h-full opacity-50 group-hover:opacity-75 group-hover:scale-105 transition duration-700" showLabel={false} />
+                  <div className="absolute inset-0 bg-gradient-to-br from-card/95 via-card/80 to-card/55" />
                 </>
               )}
               <div className="relative h-full p-6 flex flex-col">
