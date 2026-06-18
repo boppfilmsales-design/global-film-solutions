@@ -581,6 +581,112 @@ export const categories: Category[] = [
   },
 ];
 
+// ============ Defaults & enrichment =====================================
+const DEFAULT_PACKAGING = {
+  zh: [
+    "标准出口纸箱 / 木托盘 / 集装箱包装",
+    "卷材：76mm 纸芯，PE 内套，木托外护角",
+    "可定制中性包装或客户 LOGO 贴牌",
+    "20GP 装载约 18-20 吨，40HQ 装载约 25-27 吨",
+  ],
+  en: [
+    "Standard export carton / wooden pallet / container packing",
+    "Roll goods: 76mm core, PE inner bag, pallet with corner protectors",
+    "Neutral packing or OEM private label on request",
+    "20GP loads ~18-20 t, 40HQ loads ~25-27 t",
+  ],
+};
+const DEFAULT_QUALITY = {
+  zh: [
+    "ISO 9001 质量管理体系认证生产",
+    "ROHS / REACH / FDA 食品接触级合规可选",
+    "每批次出厂前理化测试 + 出货成品检验",
+    "支持 SGS / BV / Intertek 第三方测试",
+  ],
+  en: [
+    "ISO 9001 certified manufacturing",
+    "RoHS / REACH / FDA food-contact compliant options",
+    "In-line + final QC on every batch",
+    "SGS / BV / Intertek third-party testing supported",
+  ],
+};
+const DEFAULT_FAQ = {
+  zh: [
+    { q: "最小起订量 (MOQ) 是多少？", a: "标准规格 1 吨起订；定制规格依厚度宽度协商，通常 3 吨起。" },
+    { q: "交货期多长？", a: "现货 3-7 天发货；定制订单 15-25 天，视产能而定。" },
+    { q: "支持哪些付款方式？", a: "T/T 30% 定金 + 70% 见提单副本；信用证 L/C at sight；样品单可 PayPal / 西联。" },
+    { q: "是否提供样品？", a: "免费 A4 样张；卷样按成本收取，运费到付。" },
+    { q: "可以贴牌 / OEM 吗？", a: "可以。支持中性包装、定制规格、客户 LOGO 印刷。" },
+    { q: "贸易条款支持哪些？", a: "FOB 上海 / 宁波，CIF 全球主要港口，部分地区可 DDP。" },
+  ],
+  en: [
+    { q: "What is the MOQ?", a: "1 ton for standard specs; ~3 tons typical for custom width / thickness." },
+    { q: "Lead time?", a: "3-7 days from stock; 15-25 days for custom orders." },
+    { q: "Payment terms?", a: "T/T 30% deposit + 70% against B/L copy; L/C at sight; PayPal / Western Union for samples." },
+    { q: "Free samples?", a: "Free A4 swatches; roll samples charged at cost, freight collect." },
+    { q: "OEM / private label?", a: "Yes — neutral packing, custom specs and printed logo all supported." },
+    { q: "Incoterms?", a: "FOB Shanghai/Ningbo, CIF to major ports worldwide, DDP for selected regions." },
+  ],
+};
+const DEFAULT_TRADE = {
+  zh: [
+    { k: "MOQ 起订量", v: "1000 kg (可议)" },
+    { k: "交货期", v: "现货 3-7 天 / 定制 15-25 天" },
+    { k: "付款方式", v: "T/T · L/C · PayPal" },
+    { k: "贸易条款", v: "FOB / CIF / DDP" },
+    { k: "样品", v: "A4 免费 · 卷样运费到付" },
+    { k: "产地", v: "中国 · 安徽" },
+    { k: "出口港口", v: "Shanghai / Ningbo" },
+    { k: "年产能", v: "30,000+ 吨" },
+  ],
+  en: [
+    { k: "MOQ", v: "1000 kg (negotiable)" },
+    { k: "Lead time", v: "Stock 3-7 d / Custom 15-25 d" },
+    { k: "Payment", v: "T/T · L/C · PayPal" },
+    { k: "Incoterms", v: "FOB / CIF / DDP" },
+    { k: "Sample", v: "A4 free · roll freight collect" },
+    { k: "Origin", v: "Anhui, China" },
+    { k: "Loading port", v: "Shanghai / Ningbo" },
+    { k: "Capacity", v: "30,000+ tons / year" },
+  ],
+};
+
+function ensureProduct(p: Product, cat: Category): Product {
+  const baseSpec: Spec[] = [
+    { label: { zh: "品类 Category", en: "Category" }, value: cat.name.en },
+    { label: { zh: "型号 Model", en: "Model" }, value: p.name.en },
+    { label: { zh: "产地 Origin", en: "Origin" }, value: "Anhui, China" },
+    { label: { zh: "起订量 MOQ", en: "MOQ" }, value: "1000 kg" },
+    { label: { zh: "交货期 Lead time", en: "Lead time" }, value: "15-25 days" },
+    { label: { zh: "包装 Packing", en: "Packing" }, value: "Export carton / pallet" },
+  ];
+  return {
+    ...p,
+    tagline: p.tagline ?? { zh: cat.short.zh, en: cat.short.en },
+    desc: p.desc ?? {
+      zh: `${p.name.zh}由安徽东渐进出口有限公司供应。规格齐全、批次稳定，广泛应用于${cat.short.zh}相关行业。支持定制厚度、宽度、印刷与复合方案，欢迎来电询价。`,
+      en: `${p.name.en} supplied by Anhui Dongjian Import & Export Co., Ltd. Wide spec range with consistent batch quality for ${cat.short.en.toLowerCase()} applications. Custom thickness, width, printing and lamination available — contact us for a quote.`,
+    },
+    specs: p.specs && p.specs.length > 0 ? [...p.specs, ...baseSpec.slice(p.specs.length >= 3 ? 2 : 0)] : baseSpec,
+    features: p.features ?? {
+      zh: ["稳定的批次品质", "支持定制规格", "原厂直供价格", "20+ 年出口经验", "完善售后服务"],
+      en: ["Consistent batch quality", "Custom spec available", "Factory-direct pricing", "20+ years export experience", "Reliable after-sales"],
+    },
+    applications: p.applications ?? {
+      zh: ["软包装行业", "印刷与复合", "工业加工", "出口贸易", "OEM 定制"],
+      en: ["Flexible packaging", "Printing & lamination", "Industrial converting", "Export trade", "OEM customization"],
+    },
+    packaging: p.packaging ?? DEFAULT_PACKAGING,
+    quality: p.quality ?? DEFAULT_QUALITY,
+    faq: p.faq ?? DEFAULT_FAQ,
+    trade: p.trade ?? DEFAULT_TRADE,
+  };
+}
+
+categories.forEach((c) => {
+  c.products = c.products.map((p) => ensureProduct(p, c));
+});
+
 export function findProduct(categoryId: string, productId: string) {
   const cat = categories.find((c) => c.id === categoryId);
   if (!cat) return null;
