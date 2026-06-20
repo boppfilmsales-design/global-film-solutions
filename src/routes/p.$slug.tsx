@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { ChevronRight, Mail, MessageCircle, Phone, Globe, ArrowLeft, Package } from "lucide-react";
 import { Layout } from "@/components/Layout";
-import { getCatalogProduct, catalog } from "@/data/catalog";
+import { getCatalogProduct, catalog, type CatalogProduct } from "@/data/catalog";
 import { contact } from "@/data/site";
 
 export const Route = createFileRoute("/p/$slug")({
@@ -59,7 +59,7 @@ export const Route = createFileRoute("/p/$slug")({
 });
 
 function ProductDetail() {
-  const { product } = Route.useLoaderData();
+  const { product } = Route.useLoaderData() as { product: CatalogProduct };
   const [activeImg, setActiveImg] = useState(0);
 
   // Related products (same prefix from slug)

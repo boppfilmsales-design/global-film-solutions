@@ -10,15 +10,22 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CatalogRouteImport } from './routes/catalog'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsCategoryIdRouteImport } from './routes/products.$categoryId'
+import { Route as PSlugRouteImport } from './routes/p.$slug'
 import { Route as ProductsCategoryIdProductIdRouteImport } from './routes/products.$categoryId.$productId'
 
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CatalogRoute = CatalogRouteImport.update({
+  id: '/catalog',
+  path: '/catalog',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -41,6 +48,11 @@ const ProductsCategoryIdRoute = ProductsCategoryIdRouteImport.update({
   path: '/products/$categoryId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PSlugRoute = PSlugRouteImport.update({
+  id: '/p/$slug',
+  path: '/p/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductsCategoryIdProductIdRoute =
   ProductsCategoryIdProductIdRouteImport.update({
     id: '/$productId',
@@ -51,7 +63,9 @@ const ProductsCategoryIdProductIdRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/catalog': typeof CatalogRoute
   '/contact': typeof ContactRoute
+  '/p/$slug': typeof PSlugRoute
   '/products/$categoryId': typeof ProductsCategoryIdRouteWithChildren
   '/products/': typeof ProductsIndexRoute
   '/products/$categoryId/$productId': typeof ProductsCategoryIdProductIdRoute
@@ -59,7 +73,9 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/catalog': typeof CatalogRoute
   '/contact': typeof ContactRoute
+  '/p/$slug': typeof PSlugRoute
   '/products/$categoryId': typeof ProductsCategoryIdRouteWithChildren
   '/products': typeof ProductsIndexRoute
   '/products/$categoryId/$productId': typeof ProductsCategoryIdProductIdRoute
@@ -68,7 +84,9 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/catalog': typeof CatalogRoute
   '/contact': typeof ContactRoute
+  '/p/$slug': typeof PSlugRoute
   '/products/$categoryId': typeof ProductsCategoryIdRouteWithChildren
   '/products/': typeof ProductsIndexRoute
   '/products/$categoryId/$productId': typeof ProductsCategoryIdProductIdRoute
@@ -78,7 +96,9 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/catalog'
     | '/contact'
+    | '/p/$slug'
     | '/products/$categoryId'
     | '/products/'
     | '/products/$categoryId/$productId'
@@ -86,7 +106,9 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/catalog'
     | '/contact'
+    | '/p/$slug'
     | '/products/$categoryId'
     | '/products'
     | '/products/$categoryId/$productId'
@@ -94,7 +116,9 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/catalog'
     | '/contact'
+    | '/p/$slug'
     | '/products/$categoryId'
     | '/products/'
     | '/products/$categoryId/$productId'
@@ -103,7 +127,9 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  CatalogRoute: typeof CatalogRoute
   ContactRoute: typeof ContactRoute
+  PSlugRoute: typeof PSlugRoute
   ProductsCategoryIdRoute: typeof ProductsCategoryIdRouteWithChildren
   ProductsIndexRoute: typeof ProductsIndexRoute
 }
@@ -115,6 +141,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/catalog': {
+      id: '/catalog'
+      path: '/catalog'
+      fullPath: '/catalog'
+      preLoaderRoute: typeof CatalogRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -145,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsCategoryIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/p/$slug': {
+      id: '/p/$slug'
+      path: '/p/$slug'
+      fullPath: '/p/$slug'
+      preLoaderRoute: typeof PSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/products/$categoryId/$productId': {
       id: '/products/$categoryId/$productId'
       path: '/$productId'
@@ -169,7 +209,9 @@ const ProductsCategoryIdRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  CatalogRoute: CatalogRoute,
   ContactRoute: ContactRoute,
+  PSlugRoute: PSlugRoute,
   ProductsCategoryIdRoute: ProductsCategoryIdRouteWithChildren,
   ProductsIndexRoute: ProductsIndexRoute,
 }
