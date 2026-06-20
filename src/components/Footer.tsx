@@ -48,6 +48,7 @@ export function Footer() {
             <li className="flex items-start gap-2"><MapPin className="h-4 w-4 mt-0.5 shrink-0" /><span>{contact.address[lang]}</span></li>
             <li className="flex items-center gap-2"><Phone className="h-4 w-4 shrink-0" /><a href={`tel:${contact.mobile}`}>{contact.mobile}</a></li>
             <li className="flex items-center gap-2"><Mail className="h-4 w-4 shrink-0" /><a href={`mailto:${contact.email}`}>{contact.email}</a></li>
+            <li className="flex items-center gap-2"><Mail className="h-4 w-4 shrink-0" /><a href={`mailto:${contact.email2}`}>{contact.email2}</a></li>
             <li className="flex items-center gap-2"><MessageCircle className="h-4 w-4 shrink-0" />QQ: {contact.qq} · WeChat: {contact.wechat}</li>
             <li className="flex items-center gap-2"><Globe className="h-4 w-4 shrink-0" />{contact.website}</li>
           </ul>

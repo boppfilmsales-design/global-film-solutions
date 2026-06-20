@@ -33,6 +33,7 @@ function Contact() {
     { icon: Phone, label: lang === "zh" ? "电话" : "Tel", value: contact.phone, href: `tel:${contact.phone}` },
     { icon: Smartphone, label: lang === "zh" ? "手机 / WhatsApp" : "Mobile / WhatsApp", value: contact.mobile, href: `https://wa.me/86${contact.mobile}` },
     { icon: Mail, label: "Email", value: contact.email, href: `mailto:${contact.email}` },
+    { icon: Mail, label: "Email 2", value: contact.email2, href: `mailto:${contact.email2}` },
     { icon: Globe, label: "Website", value: contact.website, href: `https://${contact.website}` },
     { icon: MessageCircle, label: "QQ / WeChat", value: `QQ: ${contact.qq} · WeChat: ${contact.wechat}` },
   ];

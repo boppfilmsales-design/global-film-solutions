@@ -9,6 +9,7 @@ export const contact = {
   whatsapp: "18919659471",
   wechat: "18919659471",
   email: "sale@boppfilmsale.com",
+  email2: "message@boppfilmsale.com",
   website: "www.boppfilmsale.com",
   qq: "2538474128",
   skype: "boppfilmsales",

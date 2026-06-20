@@ -45,6 +45,7 @@ export function Header() {
         <nav className="hidden lg:flex items-center gap-1">
           <NavLink to="/">{tr.nav.home}</NavLink>
           <NavLink to="/about">{tr.nav.about}</NavLink>
+          <NavLink to="/catalog">{lang === "zh" ? "全部目录" : "Catalog"}</NavLink>
 
           <div className="relative group">
             <button className="px-4 py-2 text-sm font-medium text-foreground/80 hover:text-foreground inline-flex items-center gap-1 rounded-md hover:bg-secondary transition">
