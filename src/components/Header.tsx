@@ -264,3 +264,56 @@ function MobileLink({ to, onClick, children }: { to: string; onClick: () => void
     </Link>
   );
 }
+
+function MobileGroup({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <details className="rounded-md">
+      <summary className="cursor-pointer list-none flex items-center justify-between px-3 py-2.5 text-sm font-medium hover:bg-secondary rounded-md">
+        {label} <ChevronDown className="h-4 w-4" />
+      </summary>
+      <div className="pl-3 mt-1 space-y-0.5">{children}</div>
+    </details>
+  );
+}
+
+type DropdownItem = {
+  to: string;
+  t: { zh: string; en: string };
+  d: { zh: string; en: string };
+};
+
+function DropdownMenu({
+  label,
+  items,
+  lang,
+  extras,
+}: {
+  label: string;
+  items: DropdownItem[];
+  lang: "zh" | "en";
+  extras?: React.ReactNode;
+}) {
+  return (
+    <div className="relative group">
+      <button className="px-4 py-2 text-sm font-medium text-foreground/80 hover:text-foreground inline-flex items-center gap-1 rounded-md hover:bg-secondary transition">
+        {label} <ChevronDown className="h-4 w-4 transition group-hover:rotate-180" />
+      </button>
+      <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+        <div className="w-72 rounded-2xl border border-border bg-popover shadow-elegant overflow-hidden p-2">
+          {items.map((it) => (
+            <Link
+              key={it.to}
+              to={it.to}
+              className="block px-3 py-2.5 rounded-lg hover:bg-secondary transition"
+            >
+              <div className="text-sm font-semibold">{it.t[lang]}</div>
+              <div className="text-xs text-muted-foreground mt-0.5">{it.d[lang]}</div>
+            </Link>
+          ))}
+          {extras && <div className="px-3 py-2">{extras}</div>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
