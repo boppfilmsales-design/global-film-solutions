@@ -24,6 +24,7 @@ function Index() {
   const bopp = categories[0];
   const bopet = categories[1];
   const featured = bopp.products.slice(0, 8);
+  const catalogPicks = catalog.filter((p) => p.images && p.images.length > 0).slice(0, 16);
 
   return (
     <Layout>
