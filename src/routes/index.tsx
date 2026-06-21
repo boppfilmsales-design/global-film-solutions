@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, CheckCircle2, Factory, Globe2, Sparkles, Award, Mail, Phone, MessageCircle } from "lucide-react";
+import { ArrowRight, CheckCircle2, Factory, Globe2, Sparkles, Award, Mail, Phone, MessageCircle, Layers } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { ProductImage } from "@/components/ProductImage";
 import { useI18n } from "@/lib/i18n";
 import { categories, contact } from "@/data/site";
+import { catalog } from "@/data/catalog";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -22,6 +24,7 @@ function Index() {
   const bopp = categories[0];
   const bopet = categories[1];
   const featured = bopp.products.slice(0, 8);
+  const catalogPicks = catalog.filter((p) => p.images && p.images.length > 0).slice(0, 16);
 
   return (
     <Layout>
@@ -175,6 +178,65 @@ function Index() {
           </div>
         </div>
       </section>
+
+      {/* CATALOG CAROUSEL — direct shortcut to /catalog */}
+      <section className="container-x py-20">
+        <div className="flex items-end justify-between mb-8 gap-4">
+          <div>
+            <div className="text-xs font-semibold uppercase tracking-[0.25em] text-brand">Full Catalog · 540+</div>
+            <h2 className="mt-2 text-3xl md:text-5xl font-bold font-display">
+              {lang === "zh" ? "精选产品速览" : "Featured Picks from the Catalog"}
+            </h2>
+            <p className="text-muted-foreground mt-2 max-w-xl">
+              {lang === "zh"
+                ? "浏览全部 540+ 款产品，支持关键词搜索与分类筛选。"
+                : "Browse all 540+ items with instant search and category filters."}
+            </p>
+          </div>
+          <Link
+            to="/catalog"
+            className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-lg gradient-brand text-brand-foreground font-semibold text-sm shadow-elegant"
+          >
+            <Layers className="h-4 w-4" />
+            {lang === "zh" ? "进入完整目录" : "Open Full Catalog"}
+          </Link>
+        </div>
+        <Carousel opts={{ align: "start", loop: true }} className="relative">
+          <CarouselContent className="-ml-3">
+            {catalogPicks.map((p) => (
+              <CarouselItem key={p.slug} className="pl-3 basis-1/2 md:basis-1/4 lg:basis-1/5">
+                <Link
+                  to="/p/$slug"
+                  params={{ slug: p.slug }}
+                  className="group block rounded-2xl bg-card border border-border overflow-hidden shadow-card hover:shadow-elegant hover:-translate-y-1 transition-all duration-300"
+                >
+                  <div className="aspect-square overflow-hidden bg-muted relative">
+                    <img
+                      src={p.images[0]}
+                      alt={p.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                    />
+                  </div>
+                  <div className="p-3">
+                    <div className="text-xs font-semibold line-clamp-2 leading-snug">{p.title}</div>
+                  </div>
+                </Link>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="hidden md:flex -left-4" />
+          <CarouselNext className="hidden md:flex -right-4" />
+        </Carousel>
+        <div className="mt-6 sm:hidden">
+          <Link to="/catalog" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg gradient-brand text-brand-foreground font-semibold text-sm shadow-elegant">
+            <Layers className="h-4 w-4" />
+            {lang === "zh" ? "进入完整目录" : "Open Full Catalog"}
+          </Link>
+        </div>
+      </section>
+
 
       {/* PROCESS */}
       <section className="container-x py-24">
