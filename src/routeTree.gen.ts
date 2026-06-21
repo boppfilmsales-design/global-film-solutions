@@ -9,24 +9,67 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SolutionsRouteImport } from './routes/solutions'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as QualityRouteImport } from './routes/quality'
+import { Route as NewsRouteImport } from './routes/news'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as FactoryRouteImport } from './routes/factory'
+import { Route as DownloadsRouteImport } from './routes/downloads'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CertificationsRouteImport } from './routes/certifications'
 import { Route as CatalogRouteImport } from './routes/catalog'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
+import { Route as SolutionsSlugRouteImport } from './routes/solutions.$slug'
 import { Route as ProductsCategoryIdRouteImport } from './routes/products.$categoryId'
 import { Route as PSlugRouteImport } from './routes/p.$slug'
 import { Route as ProductsCategoryIdProductIdRouteImport } from './routes/products.$categoryId.$productId'
 
+const SolutionsRoute = SolutionsRouteImport.update({
+  id: '/solutions',
+  path: '/solutions',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QualityRoute = QualityRouteImport.update({
+  id: '/quality',
+  path: '/quality',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FactoryRoute = FactoryRouteImport.update({
+  id: '/factory',
+  path: '/factory',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DownloadsRoute = DownloadsRouteImport.update({
+  id: '/downloads',
+  path: '/downloads',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CertificationsRoute = CertificationsRouteImport.update({
+  id: '/certifications',
+  path: '/certifications',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CatalogRoute = CatalogRouteImport.update({
@@ -49,6 +92,11 @@ const ProductsIndexRoute = ProductsIndexRouteImport.update({
   path: '/products/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SolutionsSlugRoute = SolutionsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => SolutionsRoute,
+} as any)
 const ProductsCategoryIdRoute = ProductsCategoryIdRouteImport.update({
   id: '/products/$categoryId',
   path: '/products/$categoryId',
@@ -70,10 +118,18 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/catalog': typeof CatalogRoute
+  '/certifications': typeof CertificationsRoute
   '/contact': typeof ContactRoute
+  '/downloads': typeof DownloadsRoute
+  '/factory': typeof FactoryRoute
+  '/faq': typeof FaqRoute
+  '/news': typeof NewsRoute
+  '/quality': typeof QualityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/solutions': typeof SolutionsRouteWithChildren
   '/p/$slug': typeof PSlugRoute
   '/products/$categoryId': typeof ProductsCategoryIdRouteWithChildren
+  '/solutions/$slug': typeof SolutionsSlugRoute
   '/products/': typeof ProductsIndexRoute
   '/products/$categoryId/$productId': typeof ProductsCategoryIdProductIdRoute
 }
@@ -81,10 +137,18 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/catalog': typeof CatalogRoute
+  '/certifications': typeof CertificationsRoute
   '/contact': typeof ContactRoute
+  '/downloads': typeof DownloadsRoute
+  '/factory': typeof FactoryRoute
+  '/faq': typeof FaqRoute
+  '/news': typeof NewsRoute
+  '/quality': typeof QualityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/solutions': typeof SolutionsRouteWithChildren
   '/p/$slug': typeof PSlugRoute
   '/products/$categoryId': typeof ProductsCategoryIdRouteWithChildren
+  '/solutions/$slug': typeof SolutionsSlugRoute
   '/products': typeof ProductsIndexRoute
   '/products/$categoryId/$productId': typeof ProductsCategoryIdProductIdRoute
 }
@@ -93,10 +157,18 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/catalog': typeof CatalogRoute
+  '/certifications': typeof CertificationsRoute
   '/contact': typeof ContactRoute
+  '/downloads': typeof DownloadsRoute
+  '/factory': typeof FactoryRoute
+  '/faq': typeof FaqRoute
+  '/news': typeof NewsRoute
+  '/quality': typeof QualityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/solutions': typeof SolutionsRouteWithChildren
   '/p/$slug': typeof PSlugRoute
   '/products/$categoryId': typeof ProductsCategoryIdRouteWithChildren
+  '/solutions/$slug': typeof SolutionsSlugRoute
   '/products/': typeof ProductsIndexRoute
   '/products/$categoryId/$productId': typeof ProductsCategoryIdProductIdRoute
 }
@@ -106,10 +178,18 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/catalog'
+    | '/certifications'
     | '/contact'
+    | '/downloads'
+    | '/factory'
+    | '/faq'
+    | '/news'
+    | '/quality'
     | '/sitemap.xml'
+    | '/solutions'
     | '/p/$slug'
     | '/products/$categoryId'
+    | '/solutions/$slug'
     | '/products/'
     | '/products/$categoryId/$productId'
   fileRoutesByTo: FileRoutesByTo
@@ -117,10 +197,18 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/catalog'
+    | '/certifications'
     | '/contact'
+    | '/downloads'
+    | '/factory'
+    | '/faq'
+    | '/news'
+    | '/quality'
     | '/sitemap.xml'
+    | '/solutions'
     | '/p/$slug'
     | '/products/$categoryId'
+    | '/solutions/$slug'
     | '/products'
     | '/products/$categoryId/$productId'
   id:
@@ -128,10 +216,18 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/catalog'
+    | '/certifications'
     | '/contact'
+    | '/downloads'
+    | '/factory'
+    | '/faq'
+    | '/news'
+    | '/quality'
     | '/sitemap.xml'
+    | '/solutions'
     | '/p/$slug'
     | '/products/$categoryId'
+    | '/solutions/$slug'
     | '/products/'
     | '/products/$categoryId/$productId'
   fileRoutesById: FileRoutesById
@@ -140,8 +236,15 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   CatalogRoute: typeof CatalogRoute
+  CertificationsRoute: typeof CertificationsRoute
   ContactRoute: typeof ContactRoute
+  DownloadsRoute: typeof DownloadsRoute
+  FactoryRoute: typeof FactoryRoute
+  FaqRoute: typeof FaqRoute
+  NewsRoute: typeof NewsRoute
+  QualityRoute: typeof QualityRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  SolutionsRoute: typeof SolutionsRouteWithChildren
   PSlugRoute: typeof PSlugRoute
   ProductsCategoryIdRoute: typeof ProductsCategoryIdRouteWithChildren
   ProductsIndexRoute: typeof ProductsIndexRoute
@@ -149,6 +252,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/solutions': {
+      id: '/solutions'
+      path: '/solutions'
+      fullPath: '/solutions'
+      preLoaderRoute: typeof SolutionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -156,11 +266,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/quality': {
+      id: '/quality'
+      path: '/quality'
+      fullPath: '/quality'
+      preLoaderRoute: typeof QualityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/factory': {
+      id: '/factory'
+      path: '/factory'
+      fullPath: '/factory'
+      preLoaderRoute: typeof FactoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/downloads': {
+      id: '/downloads'
+      path: '/downloads'
+      fullPath: '/downloads'
+      preLoaderRoute: typeof DownloadsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/certifications': {
+      id: '/certifications'
+      path: '/certifications'
+      fullPath: '/certifications'
+      preLoaderRoute: typeof CertificationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/catalog': {
@@ -191,6 +343,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/solutions/$slug': {
+      id: '/solutions/$slug'
+      path: '/$slug'
+      fullPath: '/solutions/$slug'
+      preLoaderRoute: typeof SolutionsSlugRouteImport
+      parentRoute: typeof SolutionsRoute
+    }
     '/products/$categoryId': {
       id: '/products/$categoryId'
       path: '/products/$categoryId'
@@ -215,6 +374,18 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface SolutionsRouteChildren {
+  SolutionsSlugRoute: typeof SolutionsSlugRoute
+}
+
+const SolutionsRouteChildren: SolutionsRouteChildren = {
+  SolutionsSlugRoute: SolutionsSlugRoute,
+}
+
+const SolutionsRouteWithChildren = SolutionsRoute._addFileChildren(
+  SolutionsRouteChildren,
+)
+
 interface ProductsCategoryIdRouteChildren {
   ProductsCategoryIdProductIdRoute: typeof ProductsCategoryIdProductIdRoute
 }
@@ -230,8 +401,15 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   CatalogRoute: CatalogRoute,
+  CertificationsRoute: CertificationsRoute,
   ContactRoute: ContactRoute,
+  DownloadsRoute: DownloadsRoute,
+  FactoryRoute: FactoryRoute,
+  FaqRoute: FaqRoute,
+  NewsRoute: NewsRoute,
+  QualityRoute: QualityRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  SolutionsRoute: SolutionsRouteWithChildren,
   PSlugRoute: PSlugRoute,
   ProductsCategoryIdRoute: ProductsCategoryIdRouteWithChildren,
   ProductsIndexRoute: ProductsIndexRoute,

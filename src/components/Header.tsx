@@ -44,18 +44,23 @@ export function Header() {
 
         <nav className="hidden lg:flex items-center gap-1">
           <NavLink to="/">{tr.nav.home}</NavLink>
-          <NavLink to="/about">{tr.nav.about}</NavLink>
-          <NavLink to="/catalog">{lang === "zh" ? "全部目录" : "Catalog"}</NavLink>
 
+          {/* COMPANY dropdown */}
+          <DropdownMenu label={lang === "zh" ? "公司" : "Company"} items={[
+            { to: "/about", t: { zh: "关于我们", en: "About Us" }, d: { zh: "公司历史与团队", en: "Story & team" } },
+            { to: "/factory", t: { zh: "工厂与生产", en: "Factory" }, d: { zh: "挤出/涂布/分切车间", en: "Extrusion · coating · slitting" } },
+            { to: "/quality", t: { zh: "品质控制", en: "Quality" }, d: { zh: "QC 与实验室检测", en: "QC & lab testing" } },
+            { to: "/certifications", t: { zh: "认证体系", en: "Certifications" }, d: { zh: "ISO / FDA / REACH", en: "ISO / FDA / REACH" } },
+          ]} lang={lang} />
+
+          {/* PRODUCTS mega menu */}
           <div className="relative group">
             <button className="px-4 py-2 text-sm font-medium text-foreground/80 hover:text-foreground inline-flex items-center gap-1 rounded-md hover:bg-secondary transition">
               {tr.nav.products} <ChevronDown className="h-4 w-4 transition group-hover:rotate-180" />
             </button>
-            {/* MEGA MENU */}
-            <div className="absolute right-0 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+            <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
               <div className="w-[960px] max-w-[92vw] rounded-2xl border border-border bg-popover shadow-elegant overflow-hidden">
                 <div className="grid grid-cols-12">
-                  {/* Category list */}
                   <ul className="col-span-4 bg-secondary/40 py-3 max-h-[480px] overflow-y-auto">
                     {categories.map((c) => (
                       <li key={c.id}>
@@ -77,9 +82,12 @@ export function Header() {
                         </Link>
                       </li>
                     ))}
+                    <li className="border-t border-border mt-2 pt-2">
+                      <Link to="/catalog" className="block px-4 py-2.5 text-sm font-semibold text-brand hover:underline">
+                        {lang === "zh" ? "→ 全部 540+ 产品目录" : "→ Full catalog (540+)"}
+                      </Link>
+                    </li>
                   </ul>
-
-                  {/* Featured panel */}
                   <div className="col-span-8 p-5">
                     <div className="flex items-start justify-between mb-3">
                       <div className="min-w-0 pr-4">
@@ -89,11 +97,7 @@ export function Header() {
                         <div className="font-display font-bold text-base mt-1 truncate">{activeCat.name[lang]}</div>
                         <p className="text-xs text-muted-foreground line-clamp-2 mt-1">{activeCat.desc[lang]}</p>
                       </div>
-                      <Link
-                        to="/products/$categoryId"
-                        params={{ categoryId: activeCat.id }}
-                        className="shrink-0 text-xs font-medium text-brand hover:underline whitespace-nowrap"
-                      >
+                      <Link to="/products/$categoryId" params={{ categoryId: activeCat.id }} className="shrink-0 text-xs font-medium text-brand hover:underline whitespace-nowrap">
                         {tr.viewAll}
                       </Link>
                     </div>
@@ -113,11 +117,6 @@ export function Header() {
                           </div>
                         </Link>
                       ))}
-                      {activeCat.products.length === 0 && (
-                        <div className="col-span-3 text-center text-xs text-muted-foreground py-8 border border-dashed border-border rounded-lg">
-                          {lang === "zh" ? "更多产品请来电咨询" : "Contact us for more"}
-                        </div>
-                      )}
                     </div>
                   </div>
                 </div>
@@ -125,7 +124,34 @@ export function Header() {
             </div>
           </div>
 
-          <NavLink to="/contact">{tr.nav.contact}</NavLink>
+          {/* SOLUTIONS dropdown */}
+          <DropdownMenu label={lang === "zh" ? "解决方案" : "Solutions"} items={[
+            { to: "/solutions", t: { zh: "全部行业方案", en: "All Industries" }, d: { zh: "总览", en: "Overview" } },
+            { to: "/solutions/food", t: { zh: "食品包装", en: "Food Packaging" }, d: { zh: "糖果/烘焙/冷冻", en: "Candy · bakery · frozen" } },
+            { to: "/solutions/pharma", t: { zh: "医药包装", en: "Pharmaceutical" }, d: { zh: "USP/EP/ChP", en: "USP / EP / ChP" } },
+            { to: "/solutions/electronics", t: { zh: "电子电气", en: "Electronics" }, d: { zh: "电容器/太阳能", en: "Capacitor · solar" } },
+            { to: "/solutions/industrial", t: { zh: "工业胶带", en: "Industrial & Tape" }, d: { zh: "胶带/保护膜", en: "Tape & protective" } },
+          ]} lang={lang} />
+
+          {/* RESOURCES dropdown */}
+          <DropdownMenu label={lang === "zh" ? "资源" : "Resources"} items={[
+            { to: "/catalog", t: { zh: "全部产品目录", en: "Full Catalog" }, d: { zh: "540+ 款产品搜索", en: "Search 540+ items" } },
+            { to: "/news", t: { zh: "新闻动态", en: "News" }, d: { zh: "公司与行业动态", en: "Company & industry" } },
+            { to: "/faq", t: { zh: "常见问题", en: "FAQ" }, d: { zh: "订购/物流/付款", en: "MOQ · shipping · payment" } },
+            { to: "/downloads", t: { zh: "资料下载", en: "Downloads" }, d: { zh: "规格书/证书", en: "Datasheets & certs" } },
+          ]} lang={lang} />
+
+          {/* CONTACT dropdown */}
+          <DropdownMenu label={tr.nav.contact} items={[
+            { to: "/contact", t: { zh: "在线询价", en: "Inquiry Form" }, d: { zh: "提交需求获取报价", en: "Submit and get a quote" } },
+          ]} lang={lang} extras={
+            <div className="border-t border-border pt-3 mt-1 space-y-1.5 text-xs">
+              <a href={`mailto:${contact.email}`} className="block hover:text-brand">✉️ {contact.email}</a>
+              <a href={`tel:${contact.mobile}`} className="block hover:text-brand">📞 {contact.mobile}</a>
+              <a href={`https://wa.me/${contact.whatsapp}`} className="block hover:text-brand">💬 WhatsApp {contact.whatsapp}</a>
+              <div className="text-muted-foreground">QQ {contact.qq}</div>
+            </div>
+          } />
         </nav>
 
         <div className="flex items-center gap-2">
@@ -152,7 +178,12 @@ export function Header() {
         <div className="lg:hidden border-t border-border bg-background max-h-[80vh] overflow-y-auto">
           <div className="container-x py-3 space-y-1">
             <MobileLink to="/" onClick={() => setOpen(false)}>{tr.nav.home}</MobileLink>
-            <MobileLink to="/about" onClick={() => setOpen(false)}>{tr.nav.about}</MobileLink>
+            <MobileGroup label={lang === "zh" ? "公司" : "Company"}>
+              <MobileLink to="/about" onClick={() => setOpen(false)}>{tr.nav.about}</MobileLink>
+              <MobileLink to="/factory" onClick={() => setOpen(false)}>{lang === "zh" ? "工厂" : "Factory"}</MobileLink>
+              <MobileLink to="/quality" onClick={() => setOpen(false)}>{lang === "zh" ? "品质" : "Quality"}</MobileLink>
+              <MobileLink to="/certifications" onClick={() => setOpen(false)}>{lang === "zh" ? "认证" : "Certifications"}</MobileLink>
+            </MobileGroup>
             <button
               onClick={() => setMobileProd(!mobileProd)}
               className="w-full flex items-center justify-between px-3 py-2.5 rounded-md text-sm font-medium hover:bg-secondary"
@@ -191,8 +222,21 @@ export function Header() {
                     </div>
                   </details>
                 ))}
+                <MobileLink to="/catalog" onClick={() => setOpen(false)}>{lang === "zh" ? "→ 全部目录" : "→ Full Catalog"}</MobileLink>
               </div>
             )}
+            <MobileGroup label={lang === "zh" ? "解决方案" : "Solutions"}>
+              <MobileLink to="/solutions" onClick={() => setOpen(false)}>{lang === "zh" ? "总览" : "Overview"}</MobileLink>
+              <MobileLink to="/solutions/food" onClick={() => setOpen(false)}>{lang === "zh" ? "食品包装" : "Food"}</MobileLink>
+              <MobileLink to="/solutions/pharma" onClick={() => setOpen(false)}>{lang === "zh" ? "医药包装" : "Pharma"}</MobileLink>
+              <MobileLink to="/solutions/electronics" onClick={() => setOpen(false)}>{lang === "zh" ? "电子电气" : "Electronics"}</MobileLink>
+              <MobileLink to="/solutions/industrial" onClick={() => setOpen(false)}>{lang === "zh" ? "工业胶带" : "Industrial"}</MobileLink>
+            </MobileGroup>
+            <MobileGroup label={lang === "zh" ? "资源" : "Resources"}>
+              <MobileLink to="/news" onClick={() => setOpen(false)}>{lang === "zh" ? "新闻" : "News"}</MobileLink>
+              <MobileLink to="/faq" onClick={() => setOpen(false)}>FAQ</MobileLink>
+              <MobileLink to="/downloads" onClick={() => setOpen(false)}>{lang === "zh" ? "下载" : "Downloads"}</MobileLink>
+            </MobileGroup>
             <MobileLink to="/contact" onClick={() => setOpen(false)}>{tr.nav.contact}</MobileLink>
           </div>
         </div>
@@ -220,3 +264,56 @@ function MobileLink({ to, onClick, children }: { to: string; onClick: () => void
     </Link>
   );
 }
+
+function MobileGroup({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <details className="rounded-md">
+      <summary className="cursor-pointer list-none flex items-center justify-between px-3 py-2.5 text-sm font-medium hover:bg-secondary rounded-md">
+        {label} <ChevronDown className="h-4 w-4" />
+      </summary>
+      <div className="pl-3 mt-1 space-y-0.5">{children}</div>
+    </details>
+  );
+}
+
+type DropdownItem = {
+  to: string;
+  t: { zh: string; en: string };
+  d: { zh: string; en: string };
+};
+
+function DropdownMenu({
+  label,
+  items,
+  lang,
+  extras,
+}: {
+  label: string;
+  items: DropdownItem[];
+  lang: "zh" | "en";
+  extras?: React.ReactNode;
+}) {
+  return (
+    <div className="relative group">
+      <button className="px-4 py-2 text-sm font-medium text-foreground/80 hover:text-foreground inline-flex items-center gap-1 rounded-md hover:bg-secondary transition">
+        {label} <ChevronDown className="h-4 w-4 transition group-hover:rotate-180" />
+      </button>
+      <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+        <div className="w-72 rounded-2xl border border-border bg-popover shadow-elegant overflow-hidden p-2">
+          {items.map((it) => (
+            <Link
+              key={it.to}
+              to={it.to}
+              className="block px-3 py-2.5 rounded-lg hover:bg-secondary transition"
+            >
+              <div className="text-sm font-semibold">{it.t[lang]}</div>
+              <div className="text-xs text-muted-foreground mt-0.5">{it.d[lang]}</div>
+            </Link>
+          ))}
+          {extras && <div className="px-3 py-2">{extras}</div>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
