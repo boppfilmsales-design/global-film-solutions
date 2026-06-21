@@ -178,7 +178,12 @@ export function Header() {
         <div className="lg:hidden border-t border-border bg-background max-h-[80vh] overflow-y-auto">
           <div className="container-x py-3 space-y-1">
             <MobileLink to="/" onClick={() => setOpen(false)}>{tr.nav.home}</MobileLink>
-            <MobileLink to="/about" onClick={() => setOpen(false)}>{tr.nav.about}</MobileLink>
+            <MobileGroup label={lang === "zh" ? "公司" : "Company"}>
+              <MobileLink to="/about" onClick={() => setOpen(false)}>{tr.nav.about}</MobileLink>
+              <MobileLink to="/factory" onClick={() => setOpen(false)}>{lang === "zh" ? "工厂" : "Factory"}</MobileLink>
+              <MobileLink to="/quality" onClick={() => setOpen(false)}>{lang === "zh" ? "品质" : "Quality"}</MobileLink>
+              <MobileLink to="/certifications" onClick={() => setOpen(false)}>{lang === "zh" ? "认证" : "Certifications"}</MobileLink>
+            </MobileGroup>
             <button
               onClick={() => setMobileProd(!mobileProd)}
               className="w-full flex items-center justify-between px-3 py-2.5 rounded-md text-sm font-medium hover:bg-secondary"
@@ -217,8 +222,21 @@ export function Header() {
                     </div>
                   </details>
                 ))}
+                <MobileLink to="/catalog" onClick={() => setOpen(false)}>{lang === "zh" ? "→ 全部目录" : "→ Full Catalog"}</MobileLink>
               </div>
             )}
+            <MobileGroup label={lang === "zh" ? "解决方案" : "Solutions"}>
+              <MobileLink to="/solutions" onClick={() => setOpen(false)}>{lang === "zh" ? "总览" : "Overview"}</MobileLink>
+              <MobileLink to="/solutions/food" onClick={() => setOpen(false)}>{lang === "zh" ? "食品包装" : "Food"}</MobileLink>
+              <MobileLink to="/solutions/pharma" onClick={() => setOpen(false)}>{lang === "zh" ? "医药包装" : "Pharma"}</MobileLink>
+              <MobileLink to="/solutions/electronics" onClick={() => setOpen(false)}>{lang === "zh" ? "电子电气" : "Electronics"}</MobileLink>
+              <MobileLink to="/solutions/industrial" onClick={() => setOpen(false)}>{lang === "zh" ? "工业胶带" : "Industrial"}</MobileLink>
+            </MobileGroup>
+            <MobileGroup label={lang === "zh" ? "资源" : "Resources"}>
+              <MobileLink to="/news" onClick={() => setOpen(false)}>{lang === "zh" ? "新闻" : "News"}</MobileLink>
+              <MobileLink to="/faq" onClick={() => setOpen(false)}>FAQ</MobileLink>
+              <MobileLink to="/downloads" onClick={() => setOpen(false)}>{lang === "zh" ? "下载" : "Downloads"}</MobileLink>
+            </MobileGroup>
             <MobileLink to="/contact" onClick={() => setOpen(false)}>{tr.nav.contact}</MobileLink>
           </div>
         </div>
