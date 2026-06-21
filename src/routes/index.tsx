@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, CheckCircle2, Factory, Globe2, Sparkles, Award, Mail, Phone, MessageCircle } from "lucide-react";
+import { ArrowRight, CheckCircle2, Factory, Globe2, Sparkles, Award, Mail, Phone, MessageCircle, Layers } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { ProductImage } from "@/components/ProductImage";
 import { useI18n } from "@/lib/i18n";
 import { categories, contact } from "@/data/site";
+import { catalog } from "@/data/catalog";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 export const Route = createFileRoute("/")({
   head: () => ({
