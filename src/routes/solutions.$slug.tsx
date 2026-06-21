@@ -92,7 +92,7 @@ function SolutionDetail() {
       <section className="container-x py-16 max-w-3xl">
         <h2 className="font-display text-2xl font-bold mb-6">{lang === "zh" ? "关键特性" : "Key Features"}</h2>
         <ul className="space-y-3">
-          {data.bullets.map((b, i) => (
+          {data.bullets.map((b: { zh: string; en: string }, i: number) => (
             <li key={i} className="flex items-start gap-3 p-4 rounded-xl bg-card border border-border">
               <CheckCircle2 className="h-5 w-5 text-brand shrink-0 mt-0.5" />
               <span className="text-sm leading-relaxed">{b[lang]}</span>
