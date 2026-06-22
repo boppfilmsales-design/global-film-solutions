@@ -5,7 +5,7 @@ import { useI18n } from "@/lib/i18n";
 import { categories, type Category } from "@/data/site";
 import { ArrowRight, Package, Sparkles } from "lucide-react";
 
-export const Route = createFileRoute("/products/$categoryId")({
+export const Route = createFileRoute("/products/$categoryId/")({
   loader: ({ params }) => {
     const cat = categories.find((c) => c.id === params.categoryId);
     if (!cat) throw notFound();
