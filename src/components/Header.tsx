@@ -13,6 +13,17 @@ export function Header() {
 
   const activeCat = categories.find((c) => c.id === hoverCat) ?? categories[0];
 
+  // Source-site (boppfilmsale.com) 7 product groupings — quick filters into /catalog
+  const sourceGroups: { zh: string; en: string; q: string }[] = [
+    { zh: "胶带 & 胶水", en: "Packing Tape & Adhesive Glue", q: "tape" },
+    { zh: "原料药 & 医药中间体", en: "API & Pharmaceutical Intermediates", q: "pharma" },
+    { zh: "BOPS / CPP / BOPA 膜", en: "BOPS, CPP & BOPA Film", q: "cpp" },
+    { zh: "拉线 / 碳带 / 标签 / 条码机", en: "Tear Tape · Ribbons · Label · Printers", q: "ribbon" },
+    { zh: "POF / PE / PVC 膜及袋子", en: "POF · PE · PVC Film & Bags", q: "pof" },
+    { zh: "机械设备 & 电子产品", en: "Machine Equipment & Electronics", q: "machine" },
+    { zh: "轮毂 & 口罩", en: "Wheel Rims & Mask", q: "mask" },
+  ];
+
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-xl">
       <div className="bg-primary text-primary-foreground/90 text-xs">
