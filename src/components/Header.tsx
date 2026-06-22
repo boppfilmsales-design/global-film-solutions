@@ -166,19 +166,25 @@ export function Header() {
           <DropdownMenu label={lang === "zh" ? "资源" : "Resources"} items={[
             { to: "/catalog", t: { zh: "全部产品目录", en: "Full Catalog" }, d: { zh: "540+ 款产品搜索", en: "Search 540+ items" } },
             { to: "/news", t: { zh: "新闻动态", en: "News" }, d: { zh: "公司与行业动态", en: "Company & industry" } },
-            { to: "/faq", t: { zh: "常见问题", en: "FAQ" }, d: { zh: "订购/物流/付款", en: "MOQ · shipping · payment" } },
-            { to: "/downloads", t: { zh: "资料下载", en: "Downloads" }, d: { zh: "规格书/证书", en: "Datasheets & certs" } },
-          ]} lang={lang} />
+            { to: "/faq", t: { zh: "常见问题 FAQ", en: "FAQ" }, d: { zh: "订购 / 物流 / 付款", en: "MOQ · shipping · payment" } },
+            { to: "/downloads", t: { zh: "资料下载", en: "Downloads" }, d: { zh: "规格书 / 证书", en: "Datasheets & certs" } },
+          ]} lang={lang} extras={
+            <a href="/sitemap.xml" className="block text-xs text-muted-foreground hover:text-brand">
+              {lang === "zh" ? "🗺️ Sitemap.xml (SEO)" : "🗺️ Sitemap.xml (SEO)"}
+            </a>
+          } />
 
           {/* CONTACT dropdown */}
           <DropdownMenu label={tr.nav.contact} items={[
             { to: "/contact", t: { zh: "在线询价", en: "Inquiry Form" }, d: { zh: "提交需求获取报价", en: "Submit and get a quote" } },
+            { to: "/contact", t: { zh: "客户反馈", en: "Customer Feedback" }, d: { zh: "建议与售后", en: "Suggestions & after-sales" } },
           ]} lang={lang} extras={
             <div className="border-t border-border pt-3 mt-1 space-y-1.5 text-xs">
               <a href={`mailto:${contact.email}`} className="block hover:text-brand">✉️ {contact.email}</a>
+              <a href={`mailto:${contact.email2}`} className="block hover:text-brand">✉️ {contact.email2}</a>
               <a href={`tel:${contact.mobile}`} className="block hover:text-brand">📞 {contact.mobile}</a>
               <a href={`https://wa.me/${contact.whatsapp}`} className="block hover:text-brand">💬 WhatsApp {contact.whatsapp}</a>
-              <div className="text-muted-foreground">QQ {contact.qq}</div>
+              <div className="text-muted-foreground">QQ {contact.qq} · WeChat {contact.wechat}</div>
             </div>
           } />
         </nav>
