@@ -13,6 +13,17 @@ export function Header() {
 
   const activeCat = categories.find((c) => c.id === hoverCat) ?? categories[0];
 
+  // Source-site (boppfilmsale.com) 7 product groupings — quick filters into /catalog
+  const sourceGroups: { zh: string; en: string; q: string }[] = [
+    { zh: "胶带 & 胶水", en: "Packing Tape & Adhesive Glue", q: "tape" },
+    { zh: "原料药 & 医药中间体", en: "API & Pharmaceutical Intermediates", q: "pharma" },
+    { zh: "BOPS / CPP / BOPA 膜", en: "BOPS, CPP & BOPA Film", q: "cpp" },
+    { zh: "拉线 / 碳带 / 标签 / 条码机", en: "Tear Tape · Ribbons · Label · Printers", q: "ribbon" },
+    { zh: "POF / PE / PVC 膜及袋子", en: "POF · PE · PVC Film & Bags", q: "pof" },
+    { zh: "机械设备 & 电子产品", en: "Machine Equipment & Electronics", q: "machine" },
+    { zh: "轮毂 & 口罩", en: "Wheel Rims & Mask", q: "mask" },
+  ];
+
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-xl">
       <div className="bg-primary text-primary-foreground/90 text-xs">
@@ -47,10 +58,12 @@ export function Header() {
 
           {/* COMPANY dropdown */}
           <DropdownMenu label={lang === "zh" ? "公司" : "Company"} items={[
-            { to: "/about", t: { zh: "关于我们", en: "About Us" }, d: { zh: "公司历史与团队", en: "Story & team" } },
-            { to: "/factory", t: { zh: "工厂与生产", en: "Factory" }, d: { zh: "挤出/涂布/分切车间", en: "Extrusion · coating · slitting" } },
-            { to: "/quality", t: { zh: "品质控制", en: "Quality" }, d: { zh: "QC 与实验室检测", en: "QC & lab testing" } },
+            { to: "/about", t: { zh: "关于我们", en: "About Us" }, d: { zh: "公司简介与团队", en: "Profile & team" } },
+            { to: "/about", t: { zh: "公司简介", en: "Company Profile" }, d: { zh: "安徽东渐进出口", en: "Anhui Dongjian I/E" } },
+            { to: "/factory", t: { zh: "工厂与生产线", en: "Factory & Production" }, d: { zh: "挤出 / 涂布 / 分切", en: "Extrusion · coating · slitting" } },
+            { to: "/quality", t: { zh: "品质控制", en: "Quality Control" }, d: { zh: "QC 与实验室检测", en: "QC & lab testing" } },
             { to: "/certifications", t: { zh: "认证体系", en: "Certifications" }, d: { zh: "ISO / FDA / REACH", en: "ISO / FDA / REACH" } },
+            { to: "/contact", t: { zh: "客户反馈", en: "Feedback" }, d: { zh: "留言与询价", en: "Leave a message" } },
           ]} lang={lang} />
 
           {/* PRODUCTS mega menu */}
@@ -118,6 +131,22 @@ export function Header() {
                         </Link>
                       ))}
                     </div>
+                    <div className="mt-4 pt-3 border-t border-border">
+                      <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
+                        {lang === "zh" ? "按源站分类浏览" : "Browse by Source Category"}
+                      </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {sourceGroups.map((g) => (
+                          <a
+                            key={g.q}
+                            href={`/catalog?q=${encodeURIComponent(g.q)}`}
+                            className="text-[11px] px-2 py-1 rounded-md border border-border bg-secondary/50 hover:bg-brand hover:text-brand-foreground hover:border-brand transition"
+                          >
+                            {g[lang]}
+                          </a>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -127,29 +156,35 @@ export function Header() {
           {/* SOLUTIONS dropdown */}
           <DropdownMenu label={lang === "zh" ? "解决方案" : "Solutions"} items={[
             { to: "/solutions", t: { zh: "全部行业方案", en: "All Industries" }, d: { zh: "总览", en: "Overview" } },
-            { to: "/solutions/food", t: { zh: "食品包装", en: "Food Packaging" }, d: { zh: "糖果/烘焙/冷冻", en: "Candy · bakery · frozen" } },
-            { to: "/solutions/pharma", t: { zh: "医药包装", en: "Pharmaceutical" }, d: { zh: "USP/EP/ChP", en: "USP / EP / ChP" } },
-            { to: "/solutions/electronics", t: { zh: "电子电气", en: "Electronics" }, d: { zh: "电容器/太阳能", en: "Capacitor · solar" } },
-            { to: "/solutions/industrial", t: { zh: "工业胶带", en: "Industrial & Tape" }, d: { zh: "胶带/保护膜", en: "Tape & protective" } },
+            { to: "/solutions/food", t: { zh: "食品包装", en: "Food Packaging" }, d: { zh: "糖果 / 烘焙 / 冷冻", en: "Candy · bakery · frozen" } },
+            { to: "/solutions/pharma", t: { zh: "医药包装", en: "Pharmaceutical" }, d: { zh: "USP / EP / ChP", en: "USP / EP / ChP" } },
+            { to: "/solutions/electronics", t: { zh: "电子电气", en: "Electronics" }, d: { zh: "电容器 / 太阳能", en: "Capacitor · solar" } },
+            { to: "/solutions/industrial", t: { zh: "工业胶带", en: "Industrial & Tape" }, d: { zh: "胶带 / 保护膜", en: "Tape & protective" } },
           ]} lang={lang} />
 
           {/* RESOURCES dropdown */}
           <DropdownMenu label={lang === "zh" ? "资源" : "Resources"} items={[
             { to: "/catalog", t: { zh: "全部产品目录", en: "Full Catalog" }, d: { zh: "540+ 款产品搜索", en: "Search 540+ items" } },
             { to: "/news", t: { zh: "新闻动态", en: "News" }, d: { zh: "公司与行业动态", en: "Company & industry" } },
-            { to: "/faq", t: { zh: "常见问题", en: "FAQ" }, d: { zh: "订购/物流/付款", en: "MOQ · shipping · payment" } },
-            { to: "/downloads", t: { zh: "资料下载", en: "Downloads" }, d: { zh: "规格书/证书", en: "Datasheets & certs" } },
-          ]} lang={lang} />
+            { to: "/faq", t: { zh: "常见问题 FAQ", en: "FAQ" }, d: { zh: "订购 / 物流 / 付款", en: "MOQ · shipping · payment" } },
+            { to: "/downloads", t: { zh: "资料下载", en: "Downloads" }, d: { zh: "规格书 / 证书", en: "Datasheets & certs" } },
+          ]} lang={lang} extras={
+            <a href="/sitemap.xml" className="block text-xs text-muted-foreground hover:text-brand">
+              {lang === "zh" ? "🗺️ Sitemap.xml (SEO)" : "🗺️ Sitemap.xml (SEO)"}
+            </a>
+          } />
 
           {/* CONTACT dropdown */}
           <DropdownMenu label={tr.nav.contact} items={[
             { to: "/contact", t: { zh: "在线询价", en: "Inquiry Form" }, d: { zh: "提交需求获取报价", en: "Submit and get a quote" } },
+            { to: "/contact", t: { zh: "客户反馈", en: "Customer Feedback" }, d: { zh: "建议与售后", en: "Suggestions & after-sales" } },
           ]} lang={lang} extras={
             <div className="border-t border-border pt-3 mt-1 space-y-1.5 text-xs">
               <a href={`mailto:${contact.email}`} className="block hover:text-brand">✉️ {contact.email}</a>
+              <a href={`mailto:${contact.email2}`} className="block hover:text-brand">✉️ {contact.email2}</a>
               <a href={`tel:${contact.mobile}`} className="block hover:text-brand">📞 {contact.mobile}</a>
               <a href={`https://wa.me/${contact.whatsapp}`} className="block hover:text-brand">💬 WhatsApp {contact.whatsapp}</a>
-              <div className="text-muted-foreground">QQ {contact.qq}</div>
+              <div className="text-muted-foreground">QQ {contact.qq} · WeChat {contact.wechat}</div>
             </div>
           } />
         </nav>
@@ -180,9 +215,11 @@ export function Header() {
             <MobileLink to="/" onClick={() => setOpen(false)}>{tr.nav.home}</MobileLink>
             <MobileGroup label={lang === "zh" ? "公司" : "Company"}>
               <MobileLink to="/about" onClick={() => setOpen(false)}>{tr.nav.about}</MobileLink>
-              <MobileLink to="/factory" onClick={() => setOpen(false)}>{lang === "zh" ? "工厂" : "Factory"}</MobileLink>
-              <MobileLink to="/quality" onClick={() => setOpen(false)}>{lang === "zh" ? "品质" : "Quality"}</MobileLink>
-              <MobileLink to="/certifications" onClick={() => setOpen(false)}>{lang === "zh" ? "认证" : "Certifications"}</MobileLink>
+              <MobileLink to="/about" onClick={() => setOpen(false)}>{lang === "zh" ? "公司简介" : "Company Profile"}</MobileLink>
+              <MobileLink to="/factory" onClick={() => setOpen(false)}>{lang === "zh" ? "工厂与生产线" : "Factory & Production"}</MobileLink>
+              <MobileLink to="/quality" onClick={() => setOpen(false)}>{lang === "zh" ? "品质控制" : "Quality Control"}</MobileLink>
+              <MobileLink to="/certifications" onClick={() => setOpen(false)}>{lang === "zh" ? "认证体系" : "Certifications"}</MobileLink>
+              <MobileLink to="/contact" onClick={() => setOpen(false)}>{lang === "zh" ? "客户反馈" : "Feedback"}</MobileLink>
             </MobileGroup>
             <button
               onClick={() => setMobileProd(!mobileProd)}
@@ -193,6 +230,24 @@ export function Header() {
             </button>
             {mobileProd && (
               <div className="pl-2 space-y-2 pb-2">
+                <div className="px-2 pt-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  {lang === "zh" ? "源站分类" : "Source Categories"}
+                </div>
+                <div className="px-2 flex flex-wrap gap-1.5">
+                  {sourceGroups.map((g) => (
+                    <a
+                      key={g.q}
+                      href={`/catalog?q=${encodeURIComponent(g.q)}`}
+                      onClick={() => setOpen(false)}
+                      className="text-[11px] px-2 py-1 rounded-md border border-border bg-secondary/50 hover:bg-brand hover:text-brand-foreground transition"
+                    >
+                      {g[lang]}
+                    </a>
+                  ))}
+                </div>
+                <div className="px-2 pt-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  {lang === "zh" ? "薄膜分类" : "Film Categories"}
+                </div>
                 {categories.map((c) => (
                   <details key={c.id} className="rounded-lg border border-border bg-card">
                     <summary className="px-3 py-2.5 text-sm font-semibold cursor-pointer flex items-center justify-between">
@@ -222,22 +277,31 @@ export function Header() {
                     </div>
                   </details>
                 ))}
-                <MobileLink to="/catalog" onClick={() => setOpen(false)}>{lang === "zh" ? "→ 全部目录" : "→ Full Catalog"}</MobileLink>
+                <MobileLink to="/catalog" onClick={() => setOpen(false)}>{lang === "zh" ? "→ 全部 540+ 目录" : "→ Full Catalog (540+)"}</MobileLink>
               </div>
             )}
             <MobileGroup label={lang === "zh" ? "解决方案" : "Solutions"}>
-              <MobileLink to="/solutions" onClick={() => setOpen(false)}>{lang === "zh" ? "总览" : "Overview"}</MobileLink>
-              <MobileLink to="/solutions/food" onClick={() => setOpen(false)}>{lang === "zh" ? "食品包装" : "Food"}</MobileLink>
-              <MobileLink to="/solutions/pharma" onClick={() => setOpen(false)}>{lang === "zh" ? "医药包装" : "Pharma"}</MobileLink>
+              <MobileLink to="/solutions" onClick={() => setOpen(false)}>{lang === "zh" ? "全部行业方案" : "All Industries"}</MobileLink>
+              <MobileLink to="/solutions/food" onClick={() => setOpen(false)}>{lang === "zh" ? "食品包装" : "Food Packaging"}</MobileLink>
+              <MobileLink to="/solutions/pharma" onClick={() => setOpen(false)}>{lang === "zh" ? "医药包装" : "Pharmaceutical"}</MobileLink>
               <MobileLink to="/solutions/electronics" onClick={() => setOpen(false)}>{lang === "zh" ? "电子电气" : "Electronics"}</MobileLink>
-              <MobileLink to="/solutions/industrial" onClick={() => setOpen(false)}>{lang === "zh" ? "工业胶带" : "Industrial"}</MobileLink>
+              <MobileLink to="/solutions/industrial" onClick={() => setOpen(false)}>{lang === "zh" ? "工业胶带" : "Industrial & Tape"}</MobileLink>
             </MobileGroup>
             <MobileGroup label={lang === "zh" ? "资源" : "Resources"}>
-              <MobileLink to="/news" onClick={() => setOpen(false)}>{lang === "zh" ? "新闻" : "News"}</MobileLink>
-              <MobileLink to="/faq" onClick={() => setOpen(false)}>FAQ</MobileLink>
-              <MobileLink to="/downloads" onClick={() => setOpen(false)}>{lang === "zh" ? "下载" : "Downloads"}</MobileLink>
+              <MobileLink to="/catalog" onClick={() => setOpen(false)}>{lang === "zh" ? "全部产品目录" : "Full Catalog"}</MobileLink>
+              <MobileLink to="/news" onClick={() => setOpen(false)}>{lang === "zh" ? "新闻动态" : "News"}</MobileLink>
+              <MobileLink to="/faq" onClick={() => setOpen(false)}>{lang === "zh" ? "常见问题 FAQ" : "FAQ"}</MobileLink>
+              <MobileLink to="/downloads" onClick={() => setOpen(false)}>{lang === "zh" ? "资料下载" : "Downloads"}</MobileLink>
+              <a href="/sitemap.xml" className="block px-3 py-2.5 rounded-md text-sm font-medium hover:bg-secondary">🗺️ Sitemap.xml</a>
             </MobileGroup>
-            <MobileLink to="/contact" onClick={() => setOpen(false)}>{tr.nav.contact}</MobileLink>
+            <MobileGroup label={tr.nav.contact}>
+              <MobileLink to="/contact" onClick={() => setOpen(false)}>{lang === "zh" ? "在线询价" : "Inquiry Form"}</MobileLink>
+              <MobileLink to="/contact" onClick={() => setOpen(false)}>{lang === "zh" ? "客户反馈" : "Customer Feedback"}</MobileLink>
+              <a href={`mailto:${contact.email}`} className="block px-3 py-2.5 text-sm hover:bg-secondary rounded-md">✉️ {contact.email}</a>
+              <a href={`mailto:${contact.email2}`} className="block px-3 py-2.5 text-sm hover:bg-secondary rounded-md">✉️ {contact.email2}</a>
+              <a href={`tel:${contact.mobile}`} className="block px-3 py-2.5 text-sm hover:bg-secondary rounded-md">📞 {contact.mobile}</a>
+              <a href={`https://wa.me/${contact.whatsapp}`} className="block px-3 py-2.5 text-sm hover:bg-secondary rounded-md">💬 WhatsApp</a>
+            </MobileGroup>
           </div>
         </div>
       )}

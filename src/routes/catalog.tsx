@@ -18,7 +18,10 @@ export const Route = createFileRoute("/catalog")({
 });
 
 function CatalogPage() {
-  const [q, setQ] = useState("");
+  const [q, setQ] = useState(() => {
+    if (typeof window === "undefined") return "";
+    return new URLSearchParams(window.location.search).get("q") ?? "";
+  });
   const [cat, setCat] = useState<string>("all");
 
   const filtered = useMemo(() => {
