@@ -23,8 +23,8 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as SolutionsSlugRouteImport } from './routes/solutions.$slug'
-import { Route as ProductsCategoryIdRouteImport } from './routes/products.$categoryId'
 import { Route as PSlugRouteImport } from './routes/p.$slug'
+import { Route as ProductsCategoryIdIndexRouteImport } from './routes/products.$categoryId.index'
 import { Route as ProductsCategoryIdProductIdRouteImport } from './routes/products.$categoryId.$productId'
 
 const SolutionsRoute = SolutionsRouteImport.update({
@@ -97,21 +97,21 @@ const SolutionsSlugRoute = SolutionsSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => SolutionsRoute,
 } as any)
-const ProductsCategoryIdRoute = ProductsCategoryIdRouteImport.update({
-  id: '/products/$categoryId',
-  path: '/products/$categoryId',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PSlugRoute = PSlugRouteImport.update({
   id: '/p/$slug',
   path: '/p/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProductsCategoryIdIndexRoute = ProductsCategoryIdIndexRouteImport.update({
+  id: '/products/$categoryId/',
+  path: '/products/$categoryId/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductsCategoryIdProductIdRoute =
   ProductsCategoryIdProductIdRouteImport.update({
-    id: '/$productId',
-    path: '/$productId',
-    getParentRoute: () => ProductsCategoryIdRoute,
+    id: '/products/$categoryId/$productId',
+    path: '/products/$categoryId/$productId',
+    getParentRoute: () => rootRouteImport,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -128,10 +128,10 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/solutions': typeof SolutionsRouteWithChildren
   '/p/$slug': typeof PSlugRoute
-  '/products/$categoryId': typeof ProductsCategoryIdRouteWithChildren
   '/solutions/$slug': typeof SolutionsSlugRoute
   '/products/': typeof ProductsIndexRoute
   '/products/$categoryId/$productId': typeof ProductsCategoryIdProductIdRoute
+  '/products/$categoryId/': typeof ProductsCategoryIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -147,10 +147,10 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/solutions': typeof SolutionsRouteWithChildren
   '/p/$slug': typeof PSlugRoute
-  '/products/$categoryId': typeof ProductsCategoryIdRouteWithChildren
   '/solutions/$slug': typeof SolutionsSlugRoute
   '/products': typeof ProductsIndexRoute
   '/products/$categoryId/$productId': typeof ProductsCategoryIdProductIdRoute
+  '/products/$categoryId': typeof ProductsCategoryIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -167,10 +167,10 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/solutions': typeof SolutionsRouteWithChildren
   '/p/$slug': typeof PSlugRoute
-  '/products/$categoryId': typeof ProductsCategoryIdRouteWithChildren
   '/solutions/$slug': typeof SolutionsSlugRoute
   '/products/': typeof ProductsIndexRoute
   '/products/$categoryId/$productId': typeof ProductsCategoryIdProductIdRoute
+  '/products/$categoryId/': typeof ProductsCategoryIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -188,10 +188,10 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/solutions'
     | '/p/$slug'
-    | '/products/$categoryId'
     | '/solutions/$slug'
     | '/products/'
     | '/products/$categoryId/$productId'
+    | '/products/$categoryId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -207,10 +207,10 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/solutions'
     | '/p/$slug'
-    | '/products/$categoryId'
     | '/solutions/$slug'
     | '/products'
     | '/products/$categoryId/$productId'
+    | '/products/$categoryId'
   id:
     | '__root__'
     | '/'
@@ -226,10 +226,10 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/solutions'
     | '/p/$slug'
-    | '/products/$categoryId'
     | '/solutions/$slug'
     | '/products/'
     | '/products/$categoryId/$productId'
+    | '/products/$categoryId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -246,8 +246,9 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SolutionsRoute: typeof SolutionsRouteWithChildren
   PSlugRoute: typeof PSlugRoute
-  ProductsCategoryIdRoute: typeof ProductsCategoryIdRouteWithChildren
   ProductsIndexRoute: typeof ProductsIndexRoute
+  ProductsCategoryIdProductIdRoute: typeof ProductsCategoryIdProductIdRoute
+  ProductsCategoryIdIndexRoute: typeof ProductsCategoryIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -350,13 +351,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SolutionsSlugRouteImport
       parentRoute: typeof SolutionsRoute
     }
-    '/products/$categoryId': {
-      id: '/products/$categoryId'
-      path: '/products/$categoryId'
-      fullPath: '/products/$categoryId'
-      preLoaderRoute: typeof ProductsCategoryIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/p/$slug': {
       id: '/p/$slug'
       path: '/p/$slug'
@@ -364,12 +358,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/products/$categoryId/': {
+      id: '/products/$categoryId/'
+      path: '/products/$categoryId'
+      fullPath: '/products/$categoryId/'
+      preLoaderRoute: typeof ProductsCategoryIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/products/$categoryId/$productId': {
       id: '/products/$categoryId/$productId'
-      path: '/$productId'
+      path: '/products/$categoryId/$productId'
       fullPath: '/products/$categoryId/$productId'
       preLoaderRoute: typeof ProductsCategoryIdProductIdRouteImport
-      parentRoute: typeof ProductsCategoryIdRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -386,17 +387,6 @@ const SolutionsRouteWithChildren = SolutionsRoute._addFileChildren(
   SolutionsRouteChildren,
 )
 
-interface ProductsCategoryIdRouteChildren {
-  ProductsCategoryIdProductIdRoute: typeof ProductsCategoryIdProductIdRoute
-}
-
-const ProductsCategoryIdRouteChildren: ProductsCategoryIdRouteChildren = {
-  ProductsCategoryIdProductIdRoute: ProductsCategoryIdProductIdRoute,
-}
-
-const ProductsCategoryIdRouteWithChildren =
-  ProductsCategoryIdRoute._addFileChildren(ProductsCategoryIdRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -411,8 +401,9 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SolutionsRoute: SolutionsRouteWithChildren,
   PSlugRoute: PSlugRoute,
-  ProductsCategoryIdRoute: ProductsCategoryIdRouteWithChildren,
   ProductsIndexRoute: ProductsIndexRoute,
+  ProductsCategoryIdProductIdRoute: ProductsCategoryIdProductIdRoute,
+  ProductsCategoryIdIndexRoute: ProductsCategoryIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

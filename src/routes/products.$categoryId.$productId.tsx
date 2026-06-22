@@ -3,7 +3,40 @@ import { Layout } from "@/components/Layout";
 import { ProductImage } from "@/components/ProductImage";
 import { useI18n } from "@/lib/i18n";
 import { findProduct, contact, type Category, type Product } from "@/data/site";
-import { Check, Mail, MessageCircle, Phone, ArrowRight, Download, Sparkles } from "lucide-react";
+import { Check, Mail, MessageCircle, Phone, ArrowRight, Download, Sparkles, Thermometer, Tag } from "lucide-react";
+
+// Default usage-environment guidance applied when a product doesn't specify its own.
+const DEFAULT_ENV = {
+  zh: [
+    "存储温度 5 – 35 ℃，相对湿度 40 – 70%",
+    "避免阳光直射、远离热源与腐蚀性气体",
+    "原箱平放堆码，单堆高度 ≤ 5 层",
+    "建议自生产之日起 12 个月内使用",
+  ],
+  en: [
+    "Storage 5 – 35 ℃, relative humidity 40 – 70%",
+    "Keep away from direct sunlight, heat and corrosive gas",
+    "Stack flat in original cartons, max 5 layers per stack",
+    "Best used within 12 months from production date",
+  ],
+};
+
+function deriveKeywords(prod: Product, cat: Category) {
+  if (prod.keywords) return prod.keywords;
+  const base = (s: string) => s.split(/[·,/、，]/).map((t) => t.trim()).filter(Boolean);
+  return {
+    zh: Array.from(new Set([
+      ...base(prod.name.zh),
+      ...base(cat.short.zh),
+      "厂家直供", "批发定制", "出口供应",
+    ])).slice(0, 10),
+    en: Array.from(new Set([
+      ...base(prod.name.en),
+      ...base(cat.short.en),
+      "Factory direct", "Wholesale", "Export supplier",
+    ])).slice(0, 10),
+  };
+}
 
 export const Route = createFileRoute("/products/$categoryId/$productId")({
   loader: ({ params }) => {
@@ -11,13 +44,19 @@ export const Route = createFileRoute("/products/$categoryId/$productId")({
     if (!data) throw notFound();
     return data;
   },
-  head: ({ loaderData }) => ({
-    meta: [
-      { title: `${loaderData?.prod.name.en ?? "Product"} | ${loaderData?.cat.name.en ?? ""} | BOPP Film Sale` },
-      { name: "description", content: loaderData?.prod.desc?.en ?? loaderData?.cat.desc.en ?? "" },
-      { property: "og:image", content: loaderData?.prod.img ?? "" },
-    ],
-  }),
+  head: ({ loaderData }) => {
+    const p = loaderData?.prod;
+    const c = loaderData?.cat;
+    const kw = p && c ? deriveKeywords(p, c).en.join(", ") : "";
+    return {
+      meta: [
+        { title: `${p?.name.en ?? "Product"} | ${c?.name.en ?? ""} | BOPP Film Sale` },
+        { name: "description", content: p?.desc?.en ?? c?.desc.en ?? "" },
+        { name: "keywords", content: kw },
+        { property: "og:image", content: p?.img ?? "" },
+      ],
+    };
+  },
   notFoundComponent: () => (
     <Layout>
       <div className="container-x py-32 text-center">
@@ -41,6 +80,8 @@ function ProductDetailPage() {
   const { cat, prod } = Route.useLoaderData() as { cat: Category; prod: Product };
   const { lang, tr } = useI18n();
   const related = cat.products.filter((p) => p.id !== prod.id).slice(0, 4);
+  const env = prod.environment ?? DEFAULT_ENV;
+  const kws = deriveKeywords(prod, cat);
 
   return (
     <Layout>
@@ -220,6 +261,37 @@ function ProductDetailPage() {
               </div>
             </div>
           )}
+
+          {/* Usage Environment */}
+          <div>
+            <h2 className="text-2xl font-bold font-display flex items-center gap-2">
+              <span className="h-7 w-1.5 gradient-brand rounded-full" /> {tr.detailEnvironment}
+            </h2>
+            <div className="mt-5 grid sm:grid-cols-2 gap-3">
+              {env[lang].map((e) => (
+                <div key={e} className="flex items-start gap-3 p-4 rounded-xl bg-card border border-border">
+                  <Thermometer className="h-5 w-5 text-brand mt-0.5 shrink-0" />
+                  <span className="text-sm">{e}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Keywords */}
+          <div>
+            <h2 className="text-2xl font-bold font-display flex items-center gap-2">
+              <span className="h-7 w-1.5 gradient-brand rounded-full" /> {tr.detailKeywords}
+            </h2>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {kws[lang].map((k) => (
+                <span key={k} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary text-xs font-medium border border-border">
+                  <Tag className="h-3 w-3 text-brand" /> {k}
+                </span>
+              ))}
+            </div>
+          </div>
+
+
 
           {/* Trade info */}
           {prod.trade && (

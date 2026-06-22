@@ -33,6 +33,8 @@ export type Product = {
   features?: { zh: string[]; en: string[] };
   packaging?: { zh: string[]; en: string[] };
   quality?: { zh: string[]; en: string[] };
+  environment?: { zh: string[]; en: string[] };
+  keywords?: { zh: string[]; en: string[] };
   faq?: { zh: FAQ[]; en: FAQ[] };
   trade?: { zh: TradeRow[]; en: TradeRow[] };
 };
@@ -491,13 +493,31 @@ export const categories: Category[] = [
         id: "label-paper",
         name: { zh: "不干胶标签", en: "Self-Adhesive Labels" },
         img: IMG(70),
-        desc: { zh: "铜版纸、PET、PE、合成纸不干胶标签。", en: "Coated paper / PET / PE / synthetic paper self-adhesive labels." },
+        desc: { zh: "铜版纸、PET、PE、合成纸不干胶标签，支持卷装与单张。", en: "Coated paper / PET / PE / synthetic paper self-adhesive labels, supplied in rolls or sheets." },
+        specs: [
+          { label: { zh: "面材 Face Stock", en: "Face stock" }, value: "Coated paper / PET / PE / Synthetic" },
+          { label: { zh: "胶水 Adhesive", en: "Adhesive" }, value: "Permanent / Removable / Freezer" },
+          { label: { zh: "底纸 Liner", en: "Liner" }, value: "Glassine / PET / Kraft" },
+          { label: { zh: "宽度 Width", en: "Width" }, value: "20 – 1080 mm" },
+          { label: { zh: "印刷 Print", en: "Print" }, value: "Up to 8-color flexo / digital" },
+        ],
+        applications: { zh: ["食品标签", "日化标签", "物流条码", "电子标识"], en: ["Food labels", "Cosmetic labels", "Logistics barcode", "Electronics ID"] },
+        features: { zh: ["背胶均匀", "耐温耐湿", "易撕不残胶", "可定制规格"], en: ["Even adhesive", "Heat & humidity resistant", "Clean peel", "Custom sizes"] },
       },
       {
         id: "hot-foil",
         name: { zh: "烫金箔", en: "Hot Stamping Foil" },
         img: IMG(70),
-        desc: { zh: "金、银、彩色烫金箔，适用于纸张、塑料烫印。", en: "Gold, silver and colored hot-stamping foils for paper and plastic." },
+        desc: { zh: "金、银、彩色及全息烫金箔，适用于纸张、塑料、皮革等基材的烫印装饰。", en: "Gold, silver, colored and holographic hot-stamping foils for paper, plastic and leather substrates." },
+        specs: [
+          { label: { zh: "颜色 Color", en: "Color" }, value: "Gold / Silver / Red / Blue / Holographic" },
+          { label: { zh: "宽度 Width", en: "Width" }, value: "8 – 640 mm" },
+          { label: { zh: "长度 Length", en: "Length" }, value: "120 / 360 / 1200 m" },
+          { label: { zh: "纸芯 Core", en: "Core" }, value: "25 mm / 1 inch" },
+          { label: { zh: "适用基材 Substrate", en: "Substrate" }, value: "Paper / PVC / ABS / Leather" },
+        ],
+        applications: { zh: ["礼盒包装", "书刊封面", "证卡烫印", "化妆品瓶"], en: ["Gift boxes", "Book covers", "Card stamping", "Cosmetic bottles"] },
+        features: { zh: ["附着力强", "色泽鲜亮", "适合高速烫印", "环保无味"], en: ["Strong adhesion", "Vivid color", "Fit for high-speed press", "Eco & odorless"] },
       },
     ],
   },
@@ -740,6 +760,8 @@ export const t = {
     detailFAQ: "常见问题",
     detailGallery: "产品视图",
     detailOverview: "概览",
+    detailEnvironment: "使用环境",
+    detailKeywords: "产品关键词",
     relatedTitle: "同类产品",
     inquireNow: "立即询价",
     downloadDatasheet: "技术规格书",
@@ -810,6 +832,8 @@ export const t = {
     detailFAQ: "Frequently Asked",
     detailGallery: "Product Views",
     detailOverview: "Overview",
+    detailEnvironment: "Usage Environment",
+    detailKeywords: "Product Keywords",
     relatedTitle: "Related Products",
     inquireNow: "Inquire Now",
     downloadDatasheet: "Datasheet",
