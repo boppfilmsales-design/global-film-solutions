@@ -131,6 +131,23 @@ export function Header() {
                         </Link>
                       ))}
                     </div>
+                    <div className="mt-4 pt-3 border-t border-border">
+                      <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
+                        {lang === "zh" ? "按源站分类浏览" : "Browse by Source Category"}
+                      </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {sourceGroups.map((g) => (
+                          <Link
+                            key={g.q}
+                            to="/catalog"
+                            search={{ q: g.q } as never}
+                            className="text-[11px] px-2 py-1 rounded-md border border-border bg-secondary/50 hover:bg-brand hover:text-brand-foreground hover:border-brand transition"
+                          >
+                            {g[lang]}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -140,10 +157,10 @@ export function Header() {
           {/* SOLUTIONS dropdown */}
           <DropdownMenu label={lang === "zh" ? "解决方案" : "Solutions"} items={[
             { to: "/solutions", t: { zh: "全部行业方案", en: "All Industries" }, d: { zh: "总览", en: "Overview" } },
-            { to: "/solutions/food", t: { zh: "食品包装", en: "Food Packaging" }, d: { zh: "糖果/烘焙/冷冻", en: "Candy · bakery · frozen" } },
-            { to: "/solutions/pharma", t: { zh: "医药包装", en: "Pharmaceutical" }, d: { zh: "USP/EP/ChP", en: "USP / EP / ChP" } },
-            { to: "/solutions/electronics", t: { zh: "电子电气", en: "Electronics" }, d: { zh: "电容器/太阳能", en: "Capacitor · solar" } },
-            { to: "/solutions/industrial", t: { zh: "工业胶带", en: "Industrial & Tape" }, d: { zh: "胶带/保护膜", en: "Tape & protective" } },
+            { to: "/solutions/food", t: { zh: "食品包装", en: "Food Packaging" }, d: { zh: "糖果 / 烘焙 / 冷冻", en: "Candy · bakery · frozen" } },
+            { to: "/solutions/pharma", t: { zh: "医药包装", en: "Pharmaceutical" }, d: { zh: "USP / EP / ChP", en: "USP / EP / ChP" } },
+            { to: "/solutions/electronics", t: { zh: "电子电气", en: "Electronics" }, d: { zh: "电容器 / 太阳能", en: "Capacitor · solar" } },
+            { to: "/solutions/industrial", t: { zh: "工业胶带", en: "Industrial & Tape" }, d: { zh: "胶带 / 保护膜", en: "Tape & protective" } },
           ]} lang={lang} />
 
           {/* RESOURCES dropdown */}
