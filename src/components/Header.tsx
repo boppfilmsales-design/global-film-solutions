@@ -137,14 +137,13 @@ export function Header() {
                       </div>
                       <div className="flex flex-wrap gap-1.5">
                         {sourceGroups.map((g) => (
-                          <Link
+                          <a
                             key={g.q}
-                            to="/catalog"
-                            search={{ q: g.q } as never}
+                            href={`/catalog?q=${encodeURIComponent(g.q)}`}
                             className="text-[11px] px-2 py-1 rounded-md border border-border bg-secondary/50 hover:bg-brand hover:text-brand-foreground hover:border-brand transition"
                           >
                             {g[lang]}
-                          </Link>
+                          </a>
                         ))}
                       </div>
                     </div>
