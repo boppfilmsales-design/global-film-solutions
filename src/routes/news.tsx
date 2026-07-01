@@ -8,7 +8,7 @@ export const Route = createFileRoute("/news")({
   head: () => ({
     meta: [
       { title: "News & Updates | BOPP Film Sale" },
-      { name: "description", content: "Latest news from Anhui Dongjian — capacity, new products, industry insights." },
+      { name: "description", content: "Latest news from Anhui Eastern Communication — capacity, new products, industry insights." },
       { property: "og:title", content: "News & Updates" },
       { property: "og:description", content: "Capacity, new films, and industry insights." },
     ],

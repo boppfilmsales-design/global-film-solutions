@@ -1,7 +1,7 @@
 export type Lang = "zh" | "en";
 
 export const contact = {
-  company: { zh: "安徽东渐进出口有限公司", en: "Anhui Dongjian Import & Export Co., Ltd." },
+  company: { zh: "安徽东渐进出口有限公司", en: "Anhui Eastern Communication Imp.& Exp. Co., Ltd." },
   contactName: { zh: "杨经理", en: "Manager Yang" },
   phone: "86-551-64687285",
   fax: "86-551-64683490",
@@ -686,7 +686,7 @@ function ensureProduct(p: Product, cat: Category): Product {
     tagline: p.tagline ?? { zh: cat.short.zh, en: cat.short.en },
     desc: p.desc ?? {
       zh: `${p.name.zh}由安徽东渐进出口有限公司供应。规格齐全、批次稳定，广泛应用于${cat.short.zh}相关行业。支持定制厚度、宽度、印刷与复合方案，欢迎来电询价。`,
-      en: `${p.name.en} supplied by Anhui Dongjian Import & Export Co., Ltd. Wide spec range with consistent batch quality for ${cat.short.en.toLowerCase()} applications. Custom thickness, width, printing and lamination available — contact us for a quote.`,
+      en: `${p.name.en} supplied by Anhui Eastern Communication Imp.& Exp. Co., Ltd. Wide spec range with consistent batch quality for ${cat.short.en.toLowerCase()} applications. Custom thickness, width, printing and lamination available — contact us for a quote.`,
     },
     specs: p.specs && p.specs.length > 0 ? [...p.specs, ...baseSpec.slice(p.specs.length >= 3 ? 2 : 0)] : baseSpec,
     features: p.features ?? {
@@ -806,9 +806,9 @@ export const t = {
     catDesc: "A complete range of films, tapes, coatings, labels and machinery.",
     featTitle: "Featured Products",
     featDesc: "Top picks from our customers worldwide.",
-    aboutTitle: "About Anhui Dongjian",
+    aboutTitle: "About Anhui Eastern Communication",
     aboutLead:
-      "Anhui Dongjian Import & Export Co., Ltd. manufactures and trades flexible packaging films, coatings, printing & lamination materials and metallized / holographic products.",
+      "Anhui Eastern Communication Imp.& Exp. Co., Ltd. manufactures and trades flexible packaging films, coatings, printing & lamination materials and metallized / holographic products.",
     aboutBody:
       "Starting from flexible packaging films, we have grown into a comprehensive supplier of BOPP / BOPET / POF / BOPS / PE films and downstream processing (metallizing, printing, coating, slitting), film electronic materials (capacitor film, ribbon film, battery film), adhesive tapes, tear tapes, bags, automation machinery, as well as printing ribbons, labels, copy paper and photo paper.",
     contactTitle: "Contact Us",

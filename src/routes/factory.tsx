@@ -8,8 +8,8 @@ export const Route = createFileRoute("/factory")({
   head: () => ({
     meta: [
       { title: "Factory & Production | BOPP Film Sale" },
-      { name: "description", content: "Anhui Dongjian production base — BOPP / BOPET extrusion lines, coating, slitting and packaging workshops." },
-      { property: "og:title", content: "Factory & Production — Anhui Dongjian" },
+      { name: "description", content: "Anhui Eastern Communication production base — BOPP / BOPET extrusion lines, coating, slitting and packaging workshops." },
+      { property: "og:title", content: "Factory & Production — Anhui Eastern Communication" },
       { property: "og:description", content: "Inside our film extrusion, coating and slitting workshops." },
     ],
   }),
@@ -31,7 +31,7 @@ function FactoryPage() {
       <PageHero
         eyebrow={lang === "zh" ? "工厂实力" : "Production"}
         title={lang === "zh" ? "工厂与生产" : "Factory & Production"}
-        desc={lang === "zh" ? "走进安徽东渐生产基地：从原料、挤出、涂布、分切到出运的一站式薄膜制造。" : "Inside Anhui Dongjian — one-stop film manufacturing from resin to shipment."}
+        desc={lang === "zh" ? "走进安徽东渐生产基地：从原料、挤出、涂布、分切到出运的一站式薄膜制造。" : "Inside Anhui Eastern Communication — one-stop film manufacturing from resin to shipment."}
         crumbs={[{ label: lang === "zh" ? "首页" : "Home", to: "/" }, { label: lang === "zh" ? "工厂" : "Factory" }]}
       />
       <section className="container-x py-16 grid md:grid-cols-2 lg:grid-cols-3 gap-5">

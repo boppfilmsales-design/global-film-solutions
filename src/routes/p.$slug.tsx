@@ -37,7 +37,7 @@ export const Route = createFileRoute("/p/$slug")({
           name: p.title,
           image: p.images,
           description: desc,
-          brand: { "@type": "Brand", name: "Anhui Dongjian / BOPP Film Sale" },
+          brand: { "@type": "Brand", name: "Anhui Eastern Communication / BOPP Film Sale" },
         }),
       }],
     };
