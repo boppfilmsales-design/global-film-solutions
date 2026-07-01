@@ -49,7 +49,7 @@ export function Header() {
           </div>
           <div className="leading-tight">
             <div className="font-display font-bold text-lg text-foreground">BOPP Film Sale</div>
-            <div className="text-[11px] text-muted-foreground">{lang === "zh" ? "安徽东渐 · 软包装薄膜" : "Anhui Dongjian · Films"}</div>
+            <div className="text-[11px] text-muted-foreground">{lang === "zh" ? "安徽东渐 · 软包装薄膜" : "Anhui Eastern Communication · Films"}</div>
           </div>
         </Link>
 
@@ -59,7 +59,7 @@ export function Header() {
           {/* COMPANY dropdown */}
           <DropdownMenu label={lang === "zh" ? "公司" : "Company"} items={[
             { to: "/about", t: { zh: "关于我们", en: "About Us" }, d: { zh: "公司简介与团队", en: "Profile & team" } },
-            { to: "/about", t: { zh: "公司简介", en: "Company Profile" }, d: { zh: "安徽东渐进出口", en: "Anhui Dongjian I/E" } },
+            { to: "/about", t: { zh: "公司简介", en: "Company Profile" }, d: { zh: "安徽东渐进出口", en: "Anhui Eastern Communication I/E" } },
             { to: "/factory", t: { zh: "工厂与生产线", en: "Factory & Production" }, d: { zh: "挤出 / 涂布 / 分切", en: "Extrusion · coating · slitting" } },
             { to: "/quality", t: { zh: "品质控制", en: "Quality Control" }, d: { zh: "QC 与实验室检测", en: "QC & lab testing" } },
             { to: "/certifications", t: { zh: "认证体系", en: "Certifications" }, d: { zh: "ISO / FDA / REACH", en: "ISO / FDA / REACH" } },

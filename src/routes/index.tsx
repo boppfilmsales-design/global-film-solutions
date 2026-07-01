@@ -10,9 +10,9 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "BOPP Film Sale — Anhui Dongjian | 安徽东渐 软包装薄膜供应商" },
-      { name: "description", content: "BOPP, BOPET, POF, coated films, adhesive tapes, ribbons and labels. Global flexible packaging supplier from Anhui Dongjian." },
-      { property: "og:title", content: "BOPP Film Sale — Anhui Dongjian" },
+      { title: "BOPP Film Sale — Anhui Eastern Communication | 安徽东渐 软包装薄膜供应商" },
+      { name: "description", content: "BOPP, BOPET, POF, coated films, adhesive tapes, ribbons and labels. Global flexible packaging supplier from Anhui Eastern Communication." },
+      { property: "og:title", content: "BOPP Film Sale — Anhui Eastern Communication" },
       { property: "og:description", content: "High-performance films and one-stop flexible packaging solutions." },
     ],
   }),

@@ -7,7 +7,7 @@ import { CheckCircle2 } from "lucide-react";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About — Anhui Dongjian | 关于安徽东渐" },
+      { title: "About — Anhui Eastern Communication | 关于安徽东渐" },
       { name: "description", content: "Comprehensive supplier of BOPP, BOPET, POF, BOPS, PE films and downstream processing." },
     ],
   }),

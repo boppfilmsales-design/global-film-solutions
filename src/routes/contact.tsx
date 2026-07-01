@@ -9,7 +9,7 @@ export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
       { title: "Contact — BOPP Film Sale | 联系我们" },
-      { name: "description", content: "Reach Anhui Dongjian by email, phone, WhatsApp, WeChat or QQ. sale@boppfilmsale.com · +86 18919659471" },
+      { name: "description", content: "Reach Anhui Eastern Communication by email, phone, WhatsApp, WeChat or QQ. sale@boppfilmsale.com · +86 18919659471" },
     ],
   }),
   component: Contact,
