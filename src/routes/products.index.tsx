@@ -27,6 +27,59 @@ export const Route = createFileRoute("/products/")({
 
 type Selection = { catId: string | "all"; subId: string | null };
 
+const getCat = (catId: string) => taxonomy.find((c) => c.id === catId);
+
+const getSub = (catId: string, subId: string) => getCat(catId)?.subs.find((s) => s.id === subId);
+
+function ProductCard({ product, lang }: { product: ClassifiedProduct; lang: "zh" | "en" }) {
+  const cat = getCat(product.catId);
+  const sub = getSub(product.catId, product.subId);
+  const categoryPath = lang === "zh"
+    ? `${cat?.zh ?? "其他产品"} / ${sub?.zh ?? "其他"}`
+    : `${cat?.en ?? "Other Products"} / ${sub?.en ?? "Others"}`;
+
+  return (
+    <Link
+      to="/p/$slug"
+      params={{ slug: product.slug }}
+      className="group rounded-xl border border-border overflow-hidden bg-card hover:shadow-elegant hover:-translate-y-0.5 transition"
+    >
+      <div className="aspect-[4/3] overflow-hidden bg-secondary/30">
+        {product.images[0] ? (
+          <img
+            src={product.images[0]}
+            alt={product.title}
+            loading="lazy"
+            className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+          />
+        ) : (
+          <div className="w-full h-full grid place-items-center text-muted-foreground">
+            <Package className="h-8 w-8" />
+          </div>
+        )}
+      </div>
+      <div className="p-3">
+        <div className="text-[10px] text-brand font-semibold leading-snug line-clamp-2">
+          {categoryPath}
+        </div>
+        <h3 className="mt-1 font-semibold text-sm leading-snug line-clamp-2 group-hover:text-brand min-h-[2.5rem]">
+          {product.title}
+        </h3>
+      </div>
+    </Link>
+  );
+}
+
+function ProductGrid({ products, lang }: { products: ClassifiedProduct[]; lang: "zh" | "en" }) {
+  return (
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+      {products.map((p) => (
+        <ProductCard key={p.slug} product={p} lang={lang} />
+      ))}
+    </div>
+  );
+}
+
 function ProductsIndex() {
   const { lang, tr } = useI18n();
   const [sel, setSel] = useState<Selection>({ catId: "all", subId: null });
@@ -59,6 +112,13 @@ function ProductsIndex() {
       if (sub) return { zh: `${cat.zh} / ${sub.zh}`, en: `${cat.en} / ${sub.en}` };
     }
     return { zh: cat.zh, en: cat.en };
+  }, [sel]);
+
+  const catsToRender = useMemo(() => {
+    if (sel.subId) return [];
+    if (sel.catId === "all") return taxonomy;
+    const cat = taxonomy.find((c) => c.id === sel.catId);
+    return cat ? [cat] : [];
   }, [sel]);
 
   return (
@@ -235,39 +295,62 @@ function ProductsIndex() {
             <div className="py-20 text-center text-muted-foreground border border-dashed border-border rounded-2xl">
               {lang === "zh" ? "此分类暂无产品。" : "No products in this category."}
             </div>
+          ) : sel.subId ? (
+            <ProductGrid products={list} lang={lang} />
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-              {list.map((p) => (
-                <Link
-                  key={p.slug}
-                  to="/p/$slug"
-                  params={{ slug: p.slug }}
-                  className="group rounded-xl border border-border overflow-hidden bg-card hover:shadow-elegant hover:-translate-y-0.5 transition"
-                >
-                  <div className="aspect-[4/3] overflow-hidden bg-secondary/30">
-                    {p.images[0] ? (
-                      <img
-                        src={p.images[0]}
-                        alt={p.title}
-                        loading="lazy"
-                        className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                      />
-                    ) : (
-                      <div className="w-full h-full grid place-items-center text-muted-foreground">
-                        <Package className="h-8 w-8" />
+            <div className="space-y-10">
+              {catsToRender.map((cat) => {
+                const catProducts = list.filter((p) => p.catId === cat.id);
+                if (catProducts.length === 0 && q.trim()) return null;
+
+                return (
+                  <section key={cat.id} className="border-t border-border pt-5">
+                    <div className="mb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+                      <div>
+                        <div className="text-[11px] uppercase tracking-[0.2em] text-brand font-semibold">
+                          {cat.en}
+                        </div>
+                        <h3 className="mt-1 text-xl md:text-2xl font-bold font-display">
+                          {lang === "zh" ? cat.zh : cat.en}
+                        </h3>
                       </div>
-                    )}
-                  </div>
-                  <div className="p-3">
-                    <div className="text-[10px] text-brand font-semibold uppercase tracking-wider truncate">
-                      {taxonomy.find((c) => c.id === p.catId)?.en}
+                      <div className="text-sm text-muted-foreground">
+                        {catProducts.length} {lang === "zh" ? "款产品" : "products"}
+                      </div>
                     </div>
-                    <h3 className="mt-1 font-semibold text-sm leading-snug line-clamp-2 group-hover:text-brand min-h-[2.5rem]">
-                      {p.title}
-                    </h3>
-                  </div>
-                </Link>
-              ))}
+
+                    <div className="space-y-6">
+                      {cat.subs.map((sub) => {
+                        const subProducts = catProducts.filter((p) => p.subId === sub.id);
+                        if (subProducts.length === 0 && q.trim()) return null;
+
+                        return (
+                          <div key={sub.id} className="pl-3 border-l-2 border-brand/25">
+                            <div className="mb-3 flex items-center justify-between gap-3">
+                              <button
+                                onClick={() => setSel({ catId: cat.id, subId: sub.id })}
+                                className="text-left font-semibold text-sm hover:text-brand transition"
+                              >
+                                {lang === "zh" ? sub.zh : sub.en}
+                              </button>
+                              <span className="text-xs text-muted-foreground shrink-0">
+                                {subProducts.length}
+                              </span>
+                            </div>
+                            {subProducts.length > 0 ? (
+                              <ProductGrid products={subProducts} lang={lang} />
+                            ) : (
+                              <div className="py-5 text-sm text-muted-foreground border border-dashed border-border rounded-xl text-center">
+                                {lang === "zh" ? "该子分类暂无产品" : "No products in this sub-category"}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </section>
+                );
+              })}
             </div>
           )}
 
