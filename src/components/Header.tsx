@@ -2,16 +2,18 @@ import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { ChevronDown, Menu, X, Globe, Phone, ArrowRight, Sparkles } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
-import { categories, contact } from "@/data/site";
-import { ProductImage } from "@/components/ProductImage";
+import { contact } from "@/data/site";
+import { taxonomy, productsByCat, productsBySub, allClassified } from "@/data/taxonomy";
 
 export function Header() {
   const { lang, setLang, tr } = useI18n();
   const [open, setOpen] = useState(false);
   const [mobileProd, setMobileProd] = useState(false);
-  const [hoverCat, setHoverCat] = useState<string>(categories[0].id);
+  const [hoverCat, setHoverCat] = useState<string>(taxonomy[0].id);
 
-  const activeCat = categories.find((c) => c.id === hoverCat) ?? categories[0];
+  const activeCat = taxonomy.find((c) => c.id === hoverCat) ?? taxonomy[0];
+  const activeCatCount = productsByCat[activeCat.id]?.length ?? 0;
+  const activeCatName = { zh: activeCat.zh, en: activeCat.en };
 
   // Source-site (boppfilmsale.com) 7 product groupings — quick filters into /catalog
   const sourceGroups: { zh: string; en: string; q: string }[] = [
@@ -74,84 +76,78 @@ export function Header() {
             <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
               <div className="w-[960px] max-w-[92vw] rounded-2xl border border-border bg-popover shadow-elegant overflow-hidden">
                 <div className="grid grid-cols-12">
-                  <ul className="col-span-4 bg-secondary/40 py-3 max-h-[480px] overflow-y-auto">
-                    {categories.map((c) => (
-                      <li key={c.id}>
-                        <Link
-                          to="/products/$categoryId"
-                          params={{ categoryId: c.id }}
-                          onMouseEnter={() => setHoverCat(c.id)}
-                          className={`flex items-center justify-between gap-2 px-4 py-2.5 text-sm transition border-l-2 ${
-                            hoverCat === c.id
-                              ? "bg-popover text-brand font-semibold border-brand"
-                              : "border-transparent text-foreground/80 hover:text-foreground hover:bg-popover/60"
-                          }`}
-                        >
-                          <span className="flex items-center gap-2.5 min-w-0">
-                            <span className="text-base">{c.icon}</span>
-                            <span className="truncate">{c.short[lang]}</span>
-                          </span>
-                          <ArrowRight className="h-3.5 w-3.5 shrink-0 opacity-60" />
-                        </Link>
-                      </li>
-                    ))}
+                  <ul className="col-span-5 bg-secondary/40 py-3 max-h-[520px] overflow-y-auto">
+                    {taxonomy.map((c) => {
+                      const n = productsByCat[c.id]?.length ?? 0;
+                      return (
+                        <li key={c.id}>
+                          <Link
+                            to="/products"
+                            onMouseEnter={() => setHoverCat(c.id)}
+                            className={`flex items-center justify-between gap-2 px-4 py-2.5 text-sm transition border-l-2 ${
+                              hoverCat === c.id
+                                ? "bg-popover text-brand font-semibold border-brand"
+                                : "border-transparent text-foreground/80 hover:text-foreground hover:bg-popover/60"
+                            }`}
+                          >
+                            <span className="flex items-center gap-2.5 min-w-0">
+                              <span className="text-base">{c.icon}</span>
+                              <span className="truncate">{lang === "zh" ? c.zh : c.en}</span>
+                            </span>
+                            <span className="text-[10px] text-muted-foreground shrink-0">{n}</span>
+                          </Link>
+                        </li>
+                      );
+                    })}
                     <li className="border-t border-border mt-2 pt-2">
-                      <Link to="/catalog" className="block px-4 py-2.5 text-sm font-semibold text-brand hover:underline">
-                        {lang === "zh" ? "→ 全部 540+ 产品目录" : "→ Full catalog (540+)"}
+                      <Link to="/products" className="block px-4 py-2.5 text-sm font-semibold text-brand hover:underline">
+                        {lang === "zh" ? `→ 全部 ${allClassified.length} 款产品` : `→ All ${allClassified.length} products`}
                       </Link>
                     </li>
                   </ul>
-                  <div className="col-span-8 p-5">
+                  <div className="col-span-7 p-5">
                     <div className="flex items-start justify-between mb-3">
                       <div className="min-w-0 pr-4">
                         <div className="inline-flex items-center gap-1.5 text-[11px] font-medium text-brand uppercase tracking-wider">
-                          <Sparkles className="h-3 w-3" /> {activeCat.products.length} {tr.productsIn}
+                          <Sparkles className="h-3 w-3" /> {activeCatCount} {tr.productsIn}
                         </div>
-                        <div className="font-display font-bold text-base mt-1 truncate">{activeCat.name[lang]}</div>
-                        <p className="text-xs text-muted-foreground line-clamp-2 mt-1">{activeCat.desc[lang]}</p>
+                        <div className="font-display font-bold text-base mt-1 truncate">{activeCatName[lang]}</div>
+                        <p className="text-xs text-muted-foreground line-clamp-2 mt-1">
+                          {lang === "zh" ? "点击子分类进入产品中心浏览" : "Click a sub-category to browse products"}
+                        </p>
                       </div>
-                      <Link to="/products/$categoryId" params={{ categoryId: activeCat.id }} className="shrink-0 text-xs font-medium text-brand hover:underline whitespace-nowrap">
+                      <Link to="/products" className="shrink-0 text-xs font-medium text-brand hover:underline whitespace-nowrap">
                         {tr.viewAll}
                       </Link>
                     </div>
-                    <div className="grid grid-cols-3 gap-2.5">
-                      {activeCat.products.slice(0, 6).map((p) => (
-                        <Link
-                          key={p.id}
-                          to="/products/$categoryId/$productId"
-                          params={{ categoryId: activeCat.id, productId: p.id }}
-                          className="group/card rounded-lg border border-border bg-card overflow-hidden hover:shadow-elegant hover:-translate-y-0.5 transition"
-                        >
-                          <div className="aspect-[4/3] overflow-hidden bg-muted">
-                            <ProductImage product={p} category={activeCat} className="w-full h-full group-hover/card:scale-105 transition duration-500" />
-                          </div>
-                          <div className="p-2">
-                            <div className="text-[11px] font-semibold line-clamp-2 leading-tight">{p.name[lang]}</div>
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                    <div className="mt-4 pt-3 border-t border-border">
-                      <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
-                        {lang === "zh" ? "按源站分类浏览" : "Browse by Source Category"}
-                      </div>
-                      <div className="flex flex-wrap gap-1.5">
-                        {sourceGroups.map((g) => (
-                          <a
-                            key={g.q}
-                            href={`/catalog?q=${encodeURIComponent(g.q)}`}
-                            className="text-[11px] px-2 py-1 rounded-md border border-border bg-secondary/50 hover:bg-brand hover:text-brand-foreground hover:border-brand transition"
-                          >
-                            {g[lang]}
-                          </a>
-                        ))}
-                      </div>
+                    <div className="grid grid-cols-2 gap-1.5 max-h-[420px] overflow-y-auto pr-1">
+                      {activeCat.subs
+                        .filter((s) => (productsBySub[s.id]?.length ?? 0) > 0)
+                        .map((s) => {
+                          const n = productsBySub[s.id]?.length ?? 0;
+                          return (
+                            <Link
+                              key={s.id}
+                              to="/products"
+                              className="group/card flex items-center justify-between gap-2 px-3 py-2 rounded-lg border border-border bg-card hover:border-brand hover:bg-brand/5 transition"
+                            >
+                              <span className="text-[12px] font-medium line-clamp-2 leading-tight">
+                                {lang === "zh" ? s.zh : s.en}
+                              </span>
+                              <span className="flex items-center gap-1 shrink-0">
+                                <span className="text-[10px] text-muted-foreground">{n}</span>
+                                <ArrowRight className="h-3 w-3 text-brand opacity-0 group-hover/card:opacity-100 transition" />
+                              </span>
+                            </Link>
+                          );
+                        })}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
 
           {/* SOLUTIONS dropdown */}
           <DropdownMenu label={lang === "zh" ? "解决方案" : "Solutions"} items={[
@@ -248,36 +244,40 @@ export function Header() {
                 <div className="px-2 pt-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
                   {lang === "zh" ? "薄膜分类" : "Film Categories"}
                 </div>
-                {categories.map((c) => (
-                  <details key={c.id} className="rounded-lg border border-border bg-card">
-                    <summary className="px-3 py-2.5 text-sm font-semibold cursor-pointer flex items-center justify-between">
-                      <span className="flex items-center gap-2"><span>{c.icon}</span>{c.short[lang]}</span>
-                      <span className="text-[10px] text-muted-foreground">{c.products.length}</span>
-                    </summary>
-                    <div className="border-t border-border p-2 grid grid-cols-2 gap-2">
-                      {c.products.slice(0, 6).map((p) => (
+                {taxonomy.map((c) => {
+                  const total = productsByCat[c.id]?.length ?? 0;
+                  return (
+                    <details key={c.id} className="rounded-lg border border-border bg-card">
+                      <summary className="px-3 py-2.5 text-sm font-semibold cursor-pointer flex items-center justify-between">
+                        <span className="flex items-center gap-2"><span>{c.icon}</span>{lang === "zh" ? c.zh : c.en}</span>
+                        <span className="text-[10px] text-muted-foreground">{total}</span>
+                      </summary>
+                      <div className="border-t border-border p-2 grid grid-cols-1 gap-1">
+                        {c.subs
+                          .filter((s) => (productsBySub[s.id]?.length ?? 0) > 0)
+                          .map((s) => (
+                            <Link
+                              key={s.id}
+                              to="/products"
+                              onClick={() => setOpen(false)}
+                              className="flex items-center justify-between text-[11px] p-1.5 rounded hover:bg-secondary"
+                            >
+                              <span className="line-clamp-1">{lang === "zh" ? s.zh : s.en}</span>
+                              <span className="text-[10px] text-muted-foreground shrink-0 ml-2">{productsBySub[s.id]?.length ?? 0}</span>
+                            </Link>
+                          ))}
                         <Link
-                          key={p.id}
-                          to="/products/$categoryId/$productId"
-                          params={{ categoryId: c.id, productId: p.id }}
+                          to="/products"
                           onClick={() => setOpen(false)}
-                          className="text-[11px] p-1.5 rounded hover:bg-secondary line-clamp-2"
+                          className="col-span-2 text-center text-[11px] text-brand py-1.5 font-medium"
                         >
-                          {p.name[lang]}
+                          {tr.viewAll}
                         </Link>
-                      ))}
-                      <Link
-                        to="/products/$categoryId"
-                        params={{ categoryId: c.id }}
-                        onClick={() => setOpen(false)}
-                        className="col-span-2 text-center text-[11px] text-brand py-1.5 font-medium"
-                      >
-                        {tr.viewAll}
-                      </Link>
-                    </div>
-                  </details>
-                ))}
-                <MobileLink to="/catalog" onClick={() => setOpen(false)}>{lang === "zh" ? "→ 全部 540+ 目录" : "→ Full Catalog (540+)"}</MobileLink>
+                      </div>
+                    </details>
+                  );
+                })}
+                <MobileLink to="/products" onClick={() => setOpen(false)}>{lang === "zh" ? `→ 全部 ${allClassified.length} 款产品` : `→ All ${allClassified.length} products`}</MobileLink>
               </div>
             )}
             <MobileGroup label={lang === "zh" ? "解决方案" : "Solutions"}>
