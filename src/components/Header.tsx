@@ -2,16 +2,18 @@ import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { ChevronDown, Menu, X, Globe, Phone, ArrowRight, Sparkles } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
-import { categories, contact } from "@/data/site";
-import { ProductImage } from "@/components/ProductImage";
+import { contact } from "@/data/site";
+import { taxonomy, productsByCat, productsBySub, allClassified } from "@/data/taxonomy";
 
 export function Header() {
   const { lang, setLang, tr } = useI18n();
   const [open, setOpen] = useState(false);
   const [mobileProd, setMobileProd] = useState(false);
-  const [hoverCat, setHoverCat] = useState<string>(categories[0].id);
+  const [hoverCat, setHoverCat] = useState<string>(taxonomy[0].id);
 
-  const activeCat = categories.find((c) => c.id === hoverCat) ?? categories[0];
+  const activeCat = taxonomy.find((c) => c.id === hoverCat) ?? taxonomy[0];
+  const activeCatCount = productsByCat[activeCat.id]?.length ?? 0;
+  const activeCatName = { zh: activeCat.zh, en: activeCat.en };
 
   // Source-site (boppfilmsale.com) 7 product groupings — quick filters into /catalog
   const sourceGroups: { zh: string; en: string; q: string }[] = [
