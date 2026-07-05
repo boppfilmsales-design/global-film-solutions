@@ -244,36 +244,40 @@ export function Header() {
                 <div className="px-2 pt-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
                   {lang === "zh" ? "薄膜分类" : "Film Categories"}
                 </div>
-                {categories.map((c) => (
-                  <details key={c.id} className="rounded-lg border border-border bg-card">
-                    <summary className="px-3 py-2.5 text-sm font-semibold cursor-pointer flex items-center justify-between">
-                      <span className="flex items-center gap-2"><span>{c.icon}</span>{c.short[lang]}</span>
-                      <span className="text-[10px] text-muted-foreground">{c.products.length}</span>
-                    </summary>
-                    <div className="border-t border-border p-2 grid grid-cols-2 gap-2">
-                      {c.products.slice(0, 6).map((p) => (
+                {taxonomy.map((c) => {
+                  const total = productsByCat[c.id]?.length ?? 0;
+                  return (
+                    <details key={c.id} className="rounded-lg border border-border bg-card">
+                      <summary className="px-3 py-2.5 text-sm font-semibold cursor-pointer flex items-center justify-between">
+                        <span className="flex items-center gap-2"><span>{c.icon}</span>{lang === "zh" ? c.zh : c.en}</span>
+                        <span className="text-[10px] text-muted-foreground">{total}</span>
+                      </summary>
+                      <div className="border-t border-border p-2 grid grid-cols-1 gap-1">
+                        {c.subs
+                          .filter((s) => (productsBySub[s.id]?.length ?? 0) > 0)
+                          .map((s) => (
+                            <Link
+                              key={s.id}
+                              to="/products"
+                              onClick={() => setOpen(false)}
+                              className="flex items-center justify-between text-[11px] p-1.5 rounded hover:bg-secondary"
+                            >
+                              <span className="line-clamp-1">{lang === "zh" ? s.zh : s.en}</span>
+                              <span className="text-[10px] text-muted-foreground shrink-0 ml-2">{productsBySub[s.id]?.length ?? 0}</span>
+                            </Link>
+                          ))}
                         <Link
-                          key={p.id}
-                          to="/products/$categoryId/$productId"
-                          params={{ categoryId: c.id, productId: p.id }}
+                          to="/products"
                           onClick={() => setOpen(false)}
-                          className="text-[11px] p-1.5 rounded hover:bg-secondary line-clamp-2"
+                          className="col-span-2 text-center text-[11px] text-brand py-1.5 font-medium"
                         >
-                          {p.name[lang]}
+                          {tr.viewAll}
                         </Link>
-                      ))}
-                      <Link
-                        to="/products/$categoryId"
-                        params={{ categoryId: c.id }}
-                        onClick={() => setOpen(false)}
-                        className="col-span-2 text-center text-[11px] text-brand py-1.5 font-medium"
-                      >
-                        {tr.viewAll}
-                      </Link>
-                    </div>
-                  </details>
-                ))}
-                <MobileLink to="/catalog" onClick={() => setOpen(false)}>{lang === "zh" ? "→ 全部 540+ 目录" : "→ Full Catalog (540+)"}</MobileLink>
+                      </div>
+                    </details>
+                  );
+                })}
+                <MobileLink to="/products" onClick={() => setOpen(false)}>{lang === "zh" ? `→ 全部 ${allClassified.length} 款产品` : `→ All ${allClassified.length} products`}</MobileLink>
               </div>
             )}
             <MobileGroup label={lang === "zh" ? "解决方案" : "Solutions"}>
