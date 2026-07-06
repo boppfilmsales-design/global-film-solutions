@@ -7,7 +7,7 @@ import { catalog, catalogCategories } from "@/data/catalog";
 export const Route = createFileRoute("/catalog")({
   head: () => ({
     meta: [
-      { title: "Full Product Catalog · 全部产品目录 — BOPP Film Sale" },
+      { title: "Full Product Catalog — BOPP Film Sale" },
       { name: "description", content: `Browse ${540} BOPP / BOPET films, adhesive tapes, coating films, intermediates and more. Each product has its own page with specs and images.` },
       { property: "og:title", content: "Full Product Catalog — BOPP Film Sale" },
       { property: "og:url", content: "https://sleek-replica-hub.lovable.app/catalog" },
@@ -39,10 +39,10 @@ function CatalogPage() {
     <Layout>
       <section className="border-b border-border/40 bg-gradient-to-br from-secondary/40 via-background to-background">
         <div className="container-x py-14">
-          <div className="text-xs uppercase tracking-widest text-brand font-semibold">Catalog · 产品目录</div>
-          <h1 className="mt-2 text-4xl md:text-5xl font-display font-bold">All Products · 全部产品</h1>
+          <div className="text-xs uppercase tracking-widest text-brand font-semibold">Catalog</div>
+          <h1 className="mt-2 text-4xl md:text-5xl font-display font-bold">All Products</h1>
           <p className="mt-4 text-muted-foreground max-w-2xl">
-            {catalog.length} 个产品，每个产品都有独立的详情页（含规格表与产品图）。Each product has its own indexable page with specifications and images.
+            {catalog.length} products — each with its own indexable page including specifications and images.
           </p>
 
           <div className="mt-8 flex flex-col md:flex-row gap-3">
@@ -51,7 +51,7 @@ function CatalogPage() {
               <input
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
-                placeholder="Search by name / keyword · 搜索产品名"
+                placeholder="Search by name or keyword"
                 className="w-full pl-11 pr-4 py-3 rounded-xl border border-border bg-background focus:outline-none focus:ring-2 focus:ring-brand/40"
               />
             </div>
@@ -60,9 +60,9 @@ function CatalogPage() {
               onChange={(e) => setCat(e.target.value)}
               className="px-4 py-3 rounded-xl border border-border bg-background focus:outline-none focus:ring-2 focus:ring-brand/40"
             >
-              <option value="all">All Categories · 全部类别 ({catalog.length})</option>
+              <option value="all">All Categories ({catalog.length})</option>
               {catalogCategories.map((c) => (
-                <option key={c.id} value={c.id}>{c.zh} / {c.en} ({c.products.length})</option>
+                <option key={c.id} value={c.id}>{c.en} ({c.products.length})</option>
               ))}
             </select>
           </div>

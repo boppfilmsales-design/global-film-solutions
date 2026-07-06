@@ -127,7 +127,7 @@ function ProductDetail() {
 
           {/* Quick contact */}
           <div className="mt-6 rounded-2xl border border-border bg-secondary/40 p-5">
-            <div className="text-sm font-semibold mb-3">Quick Inquiry · 快速询价</div>
+            <div className="text-sm font-semibold mb-3">Quick Inquiry</div>
             <div className="grid grid-cols-2 gap-2">
               <a href={`https://wa.me/86${contact.mobile}?text=${encodeURIComponent("Inquiry: " + product.title)}`}
                  className="flex items-center justify-center gap-2 rounded-lg bg-brand text-brand-foreground px-3 py-2.5 text-sm font-semibold hover:opacity-90">
@@ -153,7 +153,7 @@ function ProductDetail() {
           {/* Specs */}
           {product.specs.length > 0 && (
             <div className="mt-8">
-              <h2 className="text-lg font-display font-semibold mb-3">Technical Specifications · 技术参数</h2>
+              <h2 className="text-lg font-display font-semibold mb-3">Technical Specifications</h2>
               <div className="rounded-2xl border border-border overflow-hidden">
                 <table className="w-full text-sm">
                   <tbody>
@@ -175,7 +175,7 @@ function ProductDetail() {
       {paragraphs.length > 0 && (
         <section className="border-t border-border/40 bg-secondary/20">
           <div className="container-x py-12">
-            <h2 className="text-2xl font-display font-bold mb-6">Product Details · 产品详细说明</h2>
+            <h2 className="text-2xl font-display font-bold mb-6">Product Details</h2>
             <div className="prose prose-neutral dark:prose-invert max-w-3xl space-y-3">
               {paragraphs.map((p, i) => (
                 <p key={i} className="text-foreground/85 leading-relaxed whitespace-pre-line">{p}</p>
@@ -188,7 +188,7 @@ function ProductDetail() {
       {/* Related */}
       {related.length > 0 && (
         <section className="container-x py-12">
-          <h2 className="text-2xl font-display font-bold mb-6">Related Products · 相关产品</h2>
+          <h2 className="text-2xl font-display font-bold mb-6">Related Products</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {related.map((r) => (
               <Link key={r.slug} to="/p/$slug" params={{ slug: r.slug }}

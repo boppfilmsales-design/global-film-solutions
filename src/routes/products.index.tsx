@@ -14,7 +14,7 @@ import {
 export const Route = createFileRoute("/products/")({
   head: () => ({
     meta: [
-      { title: "Products · 产品中心 — BOPP Film Sale" },
+      { title: "Products — BOPP Film Sale" },
       {
         name: "description",
         content:
